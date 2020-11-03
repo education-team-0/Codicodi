@@ -45,8 +45,4 @@ export default {
   color: #2c3e50;
 }
 
-.el-input__inner{
-  background-color: #9CA6A4A4;
-}
-
 </style>

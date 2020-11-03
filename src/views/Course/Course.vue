@@ -8,12 +8,20 @@
         <span>微专业</span>
         <span><i class="el-icon-present">关注领福利</i></span>
       </div>
-      <div style="font-size: 14px;background-color: #9CA6A4A4;border-radius: 20px">
+      <div style="font-size: 15px;border-radius: 20px">
         <span>课程<i class="el-icon-arrow-down"></i></span>
         <el-input placeholder="搜索课程" suffix-icon="el-icon-search" ></el-input>
       </div>
+      <div style="font-size: 15px">
+        <span>我的学习</span>
+        <span><i class="el-icon-bell"></i></span>
+        <span><i class="el-icon-shopping-cart-2"></i></span>
+        <span style="align-self: stretch;background-color: white;width: 1px"></span>
+        <span>郑建宙</span>
+        <span> <el-avatar src="/src/image/login/image1.jpg"></el-avatar></span>
 
     </div>
+  </div>
   </div>
 </template>
 
