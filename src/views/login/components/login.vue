@@ -60,16 +60,12 @@
 <script>
 import { validUsername } from '@/util/validate'
 import axios from "axios";
+import Cookies from 'vue-cookies'
+import jwt from 'jwt-decode';
+
 export default {
   name: 'Login',
   data() {
-    /**
-     *
-     * 用户名是否有效
-     * @param rule
-     * @param value
-     * @param callback
-     */
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
         callback(new Error('Please enter the correct user name'))
@@ -77,12 +73,6 @@ export default {
         callback()
       }
     }
-    /**
-     * 密码是否有效
-     * @param rule
-     * @param value
-     * @param callback
-     */
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error('The password can not be less than 6 digits'))
@@ -138,7 +128,7 @@ export default {
           this.loading = true
 
           //临时方法
-          var url='http://localhost:8083/user/login?name='+this.loginForm.username+'&pass='+this.loginForm.password;
+          var url='/user/login?name='+this.loginForm.username+'&pass='+this.loginForm.password;
           axios.post(url)
               .then(
                   response=>{
@@ -147,37 +137,45 @@ export default {
                         message: '登录成功',
                         type: 'success'
                       });
+                      const token=response.data.data;
+                      console.log(token)
+                      //存储到cookies
+                      Cookies.set('Token',token)
+                      //解析token中的信息
+                      const decoded=jwt(token)
+                      console.log(decoded)
+                      //存储至vuex     //decoded空，函数返回真，取反假
+                      this.$store.dispatch("setAuthenticated",!this.isEmpty(decoded))
+                      this.$store.dispatch("setUser",decoded)
+
                       this.loading = false
                       this.$router.push('/test')
-
 
                     }else{
                       if(response.data.meta.message == '用户名不存在!'){
                         this.$message.error('用户名不存在');
+                        this.loading=false;
                       }
                       else{
                         this.$message.error('密码错误');
+                        this.loading=false;
                       }
                     }
                   }
               )
-
-
-          //调用封装好的方法
-          // this.$store.dispatch('http://localhost:8083/user/login', this.loginForm)
-          //     .then(() => {
-          //       this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-          //       this.loading = false
-          //     })
-          //     .catch(() => {
-          //       this.loading = false
-          //     })
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
+    isEmpty(value){
+      return(
+          value ===undefined || value ===null ||
+          (typeof  value === "object" && Object.keys(value).length ===0) ||
+          (typeof value ==="string" && value.trim().length ===0)
+      );
+    }
   }
 
 }

@@ -10,7 +10,9 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "element-ui": "^2.14.0",
+    "jwt-decode": "^3.0.0",
     "vue": "^2.6.11",
+    "vue-cookies": "^1.7.4",
     "vue-router": "^3.4.8",
     "vue-wechat-title": "^2.0.7"
   },

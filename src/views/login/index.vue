@@ -22,9 +22,10 @@ export default {
   name: 'Login',
   components: {carousel,login},
   data() {
+    return{
 
+    }
   }
-
 }
 </script>
 
