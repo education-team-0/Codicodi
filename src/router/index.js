@@ -14,7 +14,7 @@ const router=new Router({
     routes: [
         {
             path:'/',
-            component:()=>import("@/views/login/index"),
+            component:()=>import("@/views/Course/Course"),
             meta:{
                 title:'login'
             }
