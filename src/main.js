@@ -8,6 +8,7 @@ import VueWechatTitle from 'vue-wechat-title';
 import Cookies from 'vue-cookies'
 import store from "@/util/store";
 import axios from '@/util/http'
+import './assets/css/public.css'
 
 Vue.use(VueWechatTitle)
 Vue.config.productionTip = false

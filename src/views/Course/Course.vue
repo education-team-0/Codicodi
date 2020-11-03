@@ -10,10 +10,7 @@
       </div>
       <div style="font-size: 14px;background-color: #9CA6A4A4;border-radius: 20px">
         <span>课程<i class="el-icon-arrow-down"></i></span>
-        <el-input aria-placeholder="dsad" ></el-input>
-        <!--        <label>-->
-        <!--          <input style="background-color: #9CA6A4A4" placeholder="搜索课程">-->
-        <!--        </label>-->
+        <el-input placeholder="搜索课程" suffix-icon="el-icon-search" ></el-input>
       </div>
 
     </div>
@@ -45,4 +42,5 @@ export default {
 .header span{
   margin: 0 20px;
 }
+
 </style>
