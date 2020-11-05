@@ -2,4 +2,23 @@
     background-color: #9CA6A4A4;
     border-radius: 20px;
     border: none;
+    color: white;
+}
+.el-radio-button__inner{
+    background-color: white;
+    border-color: white;
+    color: #9d9797;
+}
+.el-radio-button:first-child .el-radio-button__inner{
+    border-left:none;
+}
+.el-radio-button__orig-radio:checked+.el-radio-button__inner{
+    background-color: rgba(108, 108, 111, 100);
+    border-color: rgba(108, 108, 111, 100);
+    font-weight: bold;
+    box-shadow: none;
+}
+.el-radio-button__inner:hover{
+    color: #9d9797;
+
 }

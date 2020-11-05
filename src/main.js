@@ -19,6 +19,8 @@ Vue.use(Vuex)
 Vue.use(Cookies)
 Vue.use(store)
 
+Vue.prototype.imgUrl='http://edures.oss-accelerate.aliyuncs.com/'
+
 //设置axios请求后端接口的前缀url
 axios.defaults.baseURL='http://localhost:8083'
 
