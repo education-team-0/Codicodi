@@ -36,6 +36,7 @@ export default {
 }
 </script>
 
+<style src="../public/iconfont.css"></style>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

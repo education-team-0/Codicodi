@@ -25,7 +25,14 @@ const router=new Router({
             meta:{
                 title:'hello'
             }
-        }
+        },
+        {
+            path:'/blog/editor',
+            component:()=>import("@/views/blog/index"),
+            meta:{
+                title:'editor'
+            }
+        },
     ]
 
 })
@@ -33,7 +40,7 @@ const router=new Router({
 /*路由守卫   根据登录获得token*/
 router.beforeEach((to,from,next) =>{
     const isLogin = Cookies.get('Token') ? true :false ;
-    if(to.path ==="/" || to.path ==="/login"){
+    if(to.path ==="/" || to.path ==="/login" || to.path==="/blog/editor"){
         next();
     }else{
         isLogin ? next() :next("/")   /*真跳转  假注册*/
