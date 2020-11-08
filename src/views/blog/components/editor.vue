@@ -29,6 +29,12 @@
 <script>
 export default {
   name: "editor",
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: true
+    }
+  },
   data(){
     return{
       editorContent:'# 一级标题\n' +
@@ -50,9 +56,39 @@ export default {
       title:''
     }
   },
+  created() {
+    if(this.isEdit){
+      const id = this.$route.params && this.$route.params.id
+      this.fetchData(id)
+    }
+  },
   methods:{
     printContent(){
       console.log(this.editorContent)
+    },
+    fetchData(id){
+      if(id==1){
+        this.editorContent='# Hello Test1\n' +
+            '```java\n' +
+            'public class Test{\n' +
+            '  public static void main(String[] args){\n' +
+            '    System.out.println("hello java");\n' +
+            '  }\n' +
+            '}\n' +
+            '\n' +
+            '```'
+      }else if (id==2){
+        this.editorContent='# Test2\n' +
+            '```java\n' +
+            'public class Test{\n' +
+            '  public static void main(String[] args){\n' +
+            '    System.out.println("hello java");\n' +
+            '  }\n' +
+            '}\n' +
+            '\n' +
+            '```'
+      }
+
     }
   }
 
