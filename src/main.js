@@ -9,6 +9,9 @@ import Cookies from 'vue-cookies'
 import store from "@/util/store";
 import axios from '@/util/http'
 import './assets/css/public.css'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+
 
 Vue.use(VueWechatTitle)
 Vue.config.productionTip = false
@@ -18,6 +21,13 @@ Vue.prototype.$axios = axios;
 Vue.use(Vuex)
 Vue.use(Cookies)
 Vue.use(store)
+Vue.use(mavonEditor)
+
+//vue codemirror  前端代码编辑
+import VueCodemirror from "vue-codemirror";
+import 'codemirror/lib/codemirror.css'
+Vue.use(VueCodemirror)
+
 
 Vue.prototype.imgUrl='http://edures.oss-accelerate.aliyuncs.com/'
 

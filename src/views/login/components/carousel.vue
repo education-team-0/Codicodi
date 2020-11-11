@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col  span=22 offset=1>
+      <el-col  :span=22 :offset=1>
         <el-carousel indicator-position="outside" :height="dataHeight">
           <el-carousel-item v-for="item in imgList" :key="item.id">
             <el-image :src="item.idView"></el-image>

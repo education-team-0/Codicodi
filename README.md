@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# blog-manage-plus
+=======
 # blog-manage-plus
 
 ## Project setup
@@ -22,3 +25,4 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+>>>>>>> 647f0ea99fec6f91eba7760deff6e59b25d0de57
