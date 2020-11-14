@@ -45,5 +45,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+
+  /*background-color: #F5F6F7*/
+  /*height: 100%;*/
 }
+
+html,body,#app{
+  height: 100%;
+}
+
 </style>

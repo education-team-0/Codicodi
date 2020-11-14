@@ -18,6 +18,8 @@
       <onlineRun></onlineRun>
     </el-dialog>
 
+
+
     <editor></editor>
 
 
@@ -29,17 +31,15 @@
 <script>
 import editor from "@/views/blog/components/editor"
 import codemirror from "@/views/blog/components/codemirror";
-import code2 from "@/views/blog/components/code2";
 import onlineRun from "@/views/blog/components/onlineRun";
 export default {
   name: "index",
   components:{
-    editor,codemirror,code2,onlineRun
+    editor,codemirror,onlineRun
   },
   data(){
     return{
       centerDialogVisible: false
-
     }
   }
 }

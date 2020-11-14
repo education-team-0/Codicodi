@@ -211,7 +211,7 @@ export default {
         this.content='#include<iostream>\n' +
             'using namespace std;\n' +
             'int main(){\n' +
-            '  cout<<"hello c++"<<endl;\n' +
+            '  cout<<"hello cpp"<<endl;\n' +
             '  return 0;\n' +
             '}'
       }else if(this.codeType.toLowerCase()=='python'){

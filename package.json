@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.14.0",
     "jwt-decode": "^3.0.0",
+    "marked": "^1.2.3",
     "mavon-editor": "^2.9.0",
     "sass-loader": "^10.0.5",
     "vue": "^2.6.11",

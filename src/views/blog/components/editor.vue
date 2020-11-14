@@ -53,12 +53,17 @@ export default {
           '}\n' +
           '\n' +
           '```',
-      title:''
+      title:'',
+      // markdownOption:{
+      //   subfield:false
+      // }
     }
   },
   created() {
     if(this.isEdit){
       const id = this.$route.params && this.$route.params.id
+      console.log(this.$route)
+      console.log(this.$route.params)
       this.fetchData(id)
     }
   },
