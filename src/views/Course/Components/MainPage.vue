@@ -15,28 +15,26 @@
         <div slot="header">
           <span style="font-size: 20px;font-weight: bold;">目录</span>
         </div>
-        <div>
-          <template v-for="(item,index) in chapters">
-            <div class="chapterItem" style="background-color: #f6f6f6;font-size: 14px;" :key="index">
+          <div v-for="(item,index) in chapters" :key="index">
+            <div class="chapterItem" style="background-color: #f6f6f6;font-size: 14px;">
               <span style="width:50px">章节</span>
               <div class="circle" :style='item.isChapterFinished|chapterStepCircleFilter'>{{ index + 1 }}</div>
               <div style="color: #9d9797">{{ item.chapterTitle }}</div>
             </div>
-            <div class="sectionWrap" :key="index">
+            <div class="sectionWrap">
               <div v-for="(item2,index2) in item.sections" :key="index2">
                 <div class="sectionItem">
                   <span style="color: #9d9797;width: 50px">课时{{ index2 + 1 }}</span>
                   <div class="sectionCircle" :style="item.sectionStep|sectionStepCircleFilter(index2)"></div>
                   <div>{{ item2 }}</div>
-                  <div style="flex-grow: 1;text-align: right">
-                    <span><i class="el-icon-video-play"/>{{ ' ' + '03:30' }}</span>
+                  <div title="开始播放" style="flex-grow: 1;text-align: right" @click="toVideo(1,index,index2)">
+                    <span class="play"><i class="el-icon-video-play"/>{{ ' ' + '03:30' }}</span>
                   </div>
                 </div>
                 <div class="jointLine" v-if="index2<item.sections.length-1"></div>
               </div>
             </div>
-          </template>
-        </div>
+          </div>
       </el-card>
       <el-card style="width: 30%;margin-left: 15px;padding: 0 10px">
         <div slot="header">
@@ -90,7 +88,6 @@ export default {
   name: "MainPage",
   data() {
     return {
-
       chapters: [{
         isChapterFinished: true,
         sectionStep: 3,
@@ -141,6 +138,21 @@ export default {
           borderColor: '#42b983'
         }
 
+    }
+  },
+  methods:{
+    //idx1,idx2 第几章第几节
+    toVideo(idx1,idx2, idx3){
+      const {href}=this.$router.resolve({
+        name:'courseVideo',
+        params:{
+          courseId:idx1,
+          chapter:idx2,
+          section:idx3
+        }
+      })
+      //以新页面打开
+      window.open(href,'_blank')
     }
   }
 }
@@ -213,5 +225,11 @@ export default {
 
 .commentItem {
   margin: 10px 0;
+}
+.play:hover{
+  color: #42b983;
+  font-size: 18px;
+  transition: font-size .5s ease  ;
+  cursor: pointer;
 }
 </style>

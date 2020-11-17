@@ -22,3 +22,16 @@
     color: #9d9797;
 
 }
+.vjs_video_433-dimensions.vjs-fluid {
+    padding-top: 76%;
+}
+.video-js:hover .vjs-big-play-button, .vjs-custom-skin > .video-js .vjs-big-play-button:focus, .vjs-custom-skin > .video-js .vjs-big-play-button:active {
+     background-color: rgba(0,0,0,0.45) !important;
+
+}
+.video-js .vjs-big-play-button{
+    z-index: 1 !important;
+}
+.video-js .vjs-control-bar{
+    z-index: 1 !important;
+}

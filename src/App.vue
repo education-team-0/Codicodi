@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="{minWidth:minWidth+'px'}">
 <!--    <img alt="Vue logo" src="./assets/logo.png">-->
 <!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
     <router-view v-wechat-title='$route.meta.title'/>
@@ -13,6 +13,12 @@ import jwt from 'jwt-decode';
 
 export default {
   name: 'App',
+  data(){
+    let minWidth=Math.floor(document.documentElement.clientWidth)
+    return{
+      minWidth:minWidth
+    }
+  },
   components: {
     HelloWorld
   },

@@ -11,16 +11,18 @@ import axios from '@/util/http'
 import './assets/css/public.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import VueVideoPlayer from "vue-video-player/src";
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+import  {vueBaberrage}  from 'vue-baberrage'
 
-
+Vue.use(vueBaberrage)
+Vue.use(VueVideoPlayer)
 Vue.use(VueWechatTitle)
 Vue.config.productionTip = false
-Vue.use(router)
-Vue.use(ElementUI);
-Vue.prototype.$axios = axios;
-Vue.use(Vuex)
+Vue.use(ElementUI)
+Vue.prototype.$axios = axios
 Vue.use(Cookies)
-Vue.use(store)
 Vue.use(mavonEditor)
 
 //vue codemirror  前端代码编辑
@@ -30,6 +32,7 @@ Vue.use(VueCodemirror)
 
 
 Vue.prototype.imgUrl='http://edures.oss-accelerate.aliyuncs.com/'
+
 
 //设置axios请求后端接口的前缀url
 axios.defaults.baseURL='http://localhost:8083'

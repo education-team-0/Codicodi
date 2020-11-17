@@ -50,7 +50,6 @@
     <el-card style="margin: 10px 0">
       <el-radio-group v-model="ratio">
         <el-radio-button label="主页"></el-radio-button>
-        <el-radio-button label="讨论区"></el-radio-button>
         <el-radio-button label="笔记"></el-radio-button>
         <el-radio-button label="代码练习区"></el-radio-button>
       </el-radio-group>
@@ -58,10 +57,12 @@
     <keep-alive>
       <component :is="ratio|componentFilter" ></component>
     </keep-alive>
+
   </div>
 </template>
 
 <script>
+import onlineRun from "@/views/blog/components/onlineRun";
 import MainPage from "@/views/Course/Components/MainPage";
 export default {
   name: "Course",
@@ -73,12 +74,14 @@ export default {
     }
   },
   components:{
-    MainPage
+    MainPage,
+    onlineRun
   },
   filters:{
     componentFilter(val){
       switch (val){
         case "主页":return 'MainPage'
+        case "代码练习区":return  'onlineRun'
       }
     }
   },
