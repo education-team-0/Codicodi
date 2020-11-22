@@ -9,29 +9,35 @@ import Cookies from 'vue-cookies'
 
 Vue.use(Router)
 
-const router=new Router({
-    mode:'hash',
+const router = new Router({
+    mode: 'hash',
     routes: [
         {
-            path:'/',
-            component:()=>import("@/views/login/index"),
-            meta:{
-                title:'login'
+            name: '/',
+            path: '/',
+            component: () => import("@/views/Course/Course"),
+            meta: {
+                title: 'login'
             }
         },
         {
-            path:'/test',
-            component:()=>import("@/views/test/hello"),
-            meta:{
-                title:'hello'
+            name: 'courseVideo',
+            path: '/course/video/:courseId/:chapter/:section',
+            component: () => import("@/views/Course/Components/CourseVideo/CourseVideo")
+        },
+        {
+            path: '/test',
+            component: () => import("@/views/test/hello"),
+            meta: {
+                title: 'hello'
             }
         },
 
         {
-            path:'/blog/editor',
-            component:()=>import("@/views/blog/index"),
-            meta:{
-                title:'editor'
+            path: '/blog/editor',
+            component: () => import("@/views/blog/index"),
+            meta: {
+                title: 'editor'
             }
         },
         {
@@ -45,7 +51,7 @@ const router=new Router({
             path: '/blog/edit/:id(\\d+)',
             component: () => import('@/views/blog/index'),
             name: 'EditArticle',
-            meta: { title: 'Edit Article', noCache: true,},
+            meta: {title: 'Edit Article', noCache: true,},
             hidden: true
         },
         {

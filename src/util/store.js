@@ -9,7 +9,9 @@ const types ={
 
 const state = {
     isAuthenticated: false,
-    user: {}
+    user: {
+        userId:'test'
+    }
 };
 
 const getters ={
