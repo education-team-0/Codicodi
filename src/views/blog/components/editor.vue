@@ -15,8 +15,8 @@
         </el-input>
       </el-col>
       <el-col :span="5">
-        <el-button plain @click="printContent">保存草稿</el-button>
-        <el-button type="primary" plain>发布文章</el-button>
+        <el-button plain @click="publishDraft">保存草稿</el-button>
+        <el-button type="primary" plain @click="publishBlog">发布文章</el-button>
         <el-button type="primary" @click="centerDialogVisible = true">在线运行</el-button>
       </el-col>
     </el-row>
@@ -26,7 +26,6 @@
         width="80%"
         class="dialog"
         center>
-
       <onlineRun></onlineRun>
     </el-dialog>
     <el-row class="row">
@@ -43,6 +42,7 @@
 
 <script>
 import onlineRun from "@/views/blog/components/onlineRun";
+import axios from "axios";
 export default {
   name: "editor",
   props: {
@@ -73,7 +73,7 @@ export default {
           '}\n' +
           '\n' +
           '```',
-      title:'',
+      title:'Test',
       // markdownOption:{
       //   subfield:false
       // }
@@ -85,7 +85,9 @@ export default {
       const id = this.$route.params && this.$route.params.id
       console.log(this.$route)
       console.log(this.$route.params)
-      this.fetchData(id)
+      if(id){
+        this.fetchData(id)
+      }
     }
   },
   methods:{
@@ -96,28 +98,86 @@ export default {
       this.$router.push("/blog/list");
     },
     fetchData(id){
-      if(id==1){
-        this.editorContent='# Hello Test1\n' +
-            '```java\n' +
-            'public class Test{\n' +
-            '  public static void main(String[] args){\n' +
-            '    System.out.println("hello java");\n' +
-            '  }\n' +
-            '}\n' +
-            '\n' +
-            '```'
-      }else if (id==2){
-        this.editorContent='# Test2\n' +
-            '```java\n' +
-            'public class Test{\n' +
-            '  public static void main(String[] args){\n' +
-            '    System.out.println("hello java");\n' +
-            '  }\n' +
-            '}\n' +
-            '\n' +
-            '```'
-      }
-
+      var url="/blog/getBlogById?id="+id;
+      axios.get(url)
+          .then(
+              response => {
+                console.log(response.data)
+                this.editorContent=response.data.data.content
+              }
+          )
+      // if(id==1){
+      //   this.editorContent='# Hello Test1\n' +
+      //       '```java\n' +
+      //       'public class Test{\n' +
+      //       '  public static void main(String[] args){\n' +
+      //       '    System.out.println("hello java");\n' +
+      //       '  }\n' +
+      //       '}\n' +
+      //       '\n' +
+      //       '```'
+      // }else if (id==2){
+      //   this.editorContent='# Test2\n' +
+      //       '```java\n' +
+      //       'public class Test{\n' +
+      //       '  public static void main(String[] args){\n' +
+      //       '    System.out.println("hello java");\n' +
+      //       '  }\n' +
+      //       '}\n' +
+      //       '\n' +
+      //       '```'
+      // }
+    },
+    publishDraft(){
+      var d=new Date();
+      var url="blog/publish";
+      var id;
+      // console.log("this.$router:"+this.$route.params && this.$route.params.id)
+      //
+      // if(this.$route.params && this.$route.params.id){
+      //
+      //   id=this.$route.params && this.$route.params.id;
+      // }else{
+      //   id=0
+      // }
+      axios.post(url,{
+        "title":this.title,
+        "content":this.editorContent,
+        "author":"admin",
+        "publishTime":d,
+        "isPublished":0,
+        "blodId":this.$route.params && this.$route.params.id
+      })
+          .then(
+              response => {
+                console.log(response)
+                this.$message({
+                  message: '发布成功!',
+                  type: 'success'
+                });
+              }
+          )
+    },
+    publishBlog(){
+      var d=new Date();
+      var url="blog/publish";
+      axios.post(url,{
+        "title":this.title,
+        "content":this.editorContent,
+        "author":"admin",
+        "publishTime":d,
+        "isPublished":1,
+        "blogId":this.$route.params && this.$route.params.id
+      })
+          .then(
+              response => {
+                console.log(response)
+                this.$message({
+                  message: '发布成功!',
+                  type: 'success'
+                });
+              }
+          )
     }
   },
 

@@ -146,8 +146,8 @@ export default {
     runCode(){
       //var url="http://81.68.205.41:8080/online/run?codeType=java&className="+this.content;
 
-      var url="http://81.68.205.41:8080/online/run/"+this.codeType.toLowerCase();
-      if(this.codeType.toLowerCase()=='java'){
+      var url="/online/run/"+this.codeType.toLowerCase();
+      if(this.codeType.toLowerCase()==='java'){
         //java需要类名，单独列出一个
         var reg = new RegExp(/public class ([\s\S]*?){/);
         var className=reg.exec(this.content)
