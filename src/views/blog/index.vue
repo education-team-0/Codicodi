@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div id="run">
 
-    <h1>Markdown</h1>
+<!--    <h1>Markdown</h1>-->
 
-    <el-row>
-      <el-button type="primary" @click="centerDialogVisible = true">在线运行</el-button>
-    </el-row>
+<!--    <el-row>-->
+<!--      <el-button type="primary" @click="centerDialogVisible = true">在线运行</el-button>-->
+<!--    </el-row>-->
 
 
     <el-dialog
@@ -18,11 +18,7 @@
       <onlineRun></onlineRun>
     </el-dialog>
 
-
-
-    <editor></editor>
-
-
+    <editor class="editor"></editor>
 
   </div>
 
@@ -45,9 +41,19 @@ export default {
 }
 </script>
 
+<style>
+#run{
+  text-align: center;
+}
+</style>
+
 <style scoped>
 .dialog{
   /*height: 90% !important;*/
 }
+/*.editor{*/
+/*  height:70% !important;*/
+/*}*/
+
 
 </style>

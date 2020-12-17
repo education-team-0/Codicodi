@@ -8,11 +8,7 @@
         <login></login>
       </el-col>
 
-
-
-
     </el-row>
-
 
   </div>
 </template>

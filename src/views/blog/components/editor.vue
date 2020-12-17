@@ -1,20 +1,34 @@
 <template>
   <div>
     <el-row class="row">
-      <el-col :offset="1" :span="17">
+      <el-col :offset="1" :span="2">
+        <el-button>
+          <i  @click="manageBlog" class="el-icon-arrow-left">文章管理</i>
+        </el-button>
+
+      </el-col>
+      <el-col :span="15">
         <el-input
             placeholder="请输入标题"
             v-model="title"
             clearable>
         </el-input>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="5">
         <el-button plain @click="printContent">保存草稿</el-button>
         <el-button type="primary" plain>发布文章</el-button>
+        <el-button type="primary" @click="centerDialogVisible = true">在线运行</el-button>
       </el-col>
-
-
     </el-row>
+    <el-dialog
+        title="在线运行"
+        :visible.sync="centerDialogVisible"
+        width="80%"
+        class="dialog"
+        center>
+
+      <onlineRun></onlineRun>
+    </el-dialog>
     <el-row class="row">
       <el-col :offset="1" :span="22">
         <mavon-editor class="editor" v-model="editorContent"></mavon-editor>
@@ -23,10 +37,12 @@
 
     </el-row>
 
+
   </div>
 </template>
 
 <script>
+import onlineRun from "@/views/blog/components/onlineRun";
 export default {
   name: "editor",
   props: {
@@ -35,8 +51,12 @@ export default {
       default: true
     }
   },
+  components:{
+    onlineRun
+  },
   data(){
     return{
+      centerDialogVisible: false,
       editorContent:'# 一级标题\n' +
           '## 二级标题\n' +
           '### 三级标题\n' +
@@ -57,6 +77,7 @@ export default {
       // markdownOption:{
       //   subfield:false
       // }
+
     }
   },
   created() {
@@ -70,6 +91,9 @@ export default {
   methods:{
     printContent(){
       console.log(this.editorContent)
+    },
+    manageBlog(){
+      this.$router.push("/blog/list");
     },
     fetchData(id){
       if(id==1){
@@ -95,7 +119,7 @@ export default {
       }
 
     }
-  }
+  },
 
 }
 </script>
@@ -105,6 +129,8 @@ export default {
   margin-top: 20px;
 }
 .editor{
-  height: 50%;
+  height: 70%;
 }
+
+
 </style>

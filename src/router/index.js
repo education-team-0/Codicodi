@@ -13,12 +13,20 @@ const router = new Router({
     mode: 'hash',
     routes: [
         {
-            name: '/',
-            path: '/',
+            name: '/course',
+            path: '/course',
             component: () => import("@/views/Course/Course"),
             meta: {
-                title: 'login'
+                title: 'course'
             }
+        },
+        {
+          name:'/login',
+          path: '/',
+          component:()=>import('@/views/login/index'),
+          meta:{
+              title: 'course'
+          }
         },
         {
             name: 'courseVideo',
