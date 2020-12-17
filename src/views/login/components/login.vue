@@ -129,7 +129,7 @@ export default {
 
           //临时方法
           var url='/user/login?name='+this.loginForm.username+'&pass='+this.loginForm.password;
-          axios.post(url)
+          axios.get(url)
               .then(
                   response=>{
                     if(response.data.meta.success == true){
