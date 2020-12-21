@@ -22,11 +22,21 @@
             </p>
 
             <p class="operate_info">
-              <span class="publish-time">At time /<a>{{blog.date}}</a></span>
-              <span class="readings"><a ><i class="el-icon-view"></i> {{blog.readNum}} 阅读</a></span>
-              <span class="comments"><a ><i class=" el-icon-s-comment"></i> {{blog.commentNum}} 评论</a></span>
+              <el-row>
+                <el-col :span="8">
+                  <span class="publish-time">At time /<a>{{blog.date}}</a></span>
+                </el-col>
 
-              <span class="likes"><a ><i class="el-icon-star-on"></i> {{blog.starNum}} 喜欢</a></span>
+                <el-col :offset="10" :span="6">
+                  <span class="readings"><a ><i class="el-icon-view"></i> {{blog.readNum}} </a></span>
+                  <span class="comments"><a ><i class=" el-icon-s-comment"></i> {{blog.commentNum}} </a></span>
+                  <span class="likes"><a ><i class="el-icon-star-on"></i> {{blog.starNum}} </a></span>
+                </el-col>
+                <el-col></el-col>
+
+              </el-row>
+
+
             </p>
 
 
@@ -85,7 +95,7 @@ a{
   cursor: default;
   border: 1px #d3dce6;
   margin-left: 12px;
-  color: #666 ;
+  color: #b4b4b4 ;
 }
 p{
   color: #666 ;

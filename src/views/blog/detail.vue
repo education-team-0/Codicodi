@@ -15,27 +15,34 @@
 
             </el-row>
 
+
             <el-row>
-              <el-card class="box-card info-card" shadow="hover">
+              <el-card class="box-card info-card" shadow="never">
                 <!--              <span>个人信息</span>-->
                 <el-row>
-                  <el-col :offset="1" :span="4"><span class="greyText">Author: </span>{{blogInfo.author }}</el-col>
-                  <el-col :span="6"><span class="greyText">Pubish Date: </span><span>{{blogInfo.date}}</span></el-col>
-                  <el-col :span="6"><span class="greyText">Update Date: </span><span>{{blogInfo.date}}</span></el-col>
+                  <el-col  :span="3"><span class="greyText">Author: </span>{{blogInfo.author }}</el-col>
+                  <el-col :span="7"><span class="greyText">Pubish Date: </span><span>{{blogInfo.publishTime}}</span></el-col>
+                  <el-col :span="7"><span class="greyText">Update Date: </span><span>{{blogInfo.publishTime}}</span></el-col>
+                  <el-col :span="3"> <span class="readings"><a ><i class="el-icon-view"></i> {{blogInfo.viewFrequency}} </a></span>
+                  <span class="likes"><a ><i class="el-icon-star-on"></i> {{blogInfo.star}} </a></span></el-col>
                 </el-row>
 
               </el-card>
             </el-row>
+            <el-divider></el-divider>
 
             <el-row style="margin-top: 20px">
               <div v-html="blogInfo.content" class="markdown-body" style="text-align: left"></div>
             </el-row>
+            <el-divider></el-divider>
+
           </el-card>
         </el-row>
 
         <el-row style="margin-top: 10px">
           <el-card  shadow="never">
             <h1>评论区</h1>
+            <el-divider></el-divider>
           </el-card>
         </el-row>
 
@@ -51,6 +58,11 @@
 <script>
 import marked from 'marked'
 import axios from "axios";
+import hljs from "highlight.js"
+// import 'highlight.js/styles/monokai-sublime.css'
+import 'highlight.js/styles/mono-blue.css'
+import 'highlight.js/styles/idea.css'
+import 'highlight.js/styles/arta.css'  //不错！
 export default {
   name: "detail",
   data(){
@@ -69,6 +81,25 @@ export default {
     console.log(this.blogInfo)
 
   },
+  mounted() {
+    marked.setOptions({
+          renderer: new marked.Renderer(),
+          highlight: function(code) {
+            return hljs.highlightAuto(code).value;
+          },
+          pedantic: false,
+          gfm: true,
+          tables: true,
+          breaks: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+          xhtml: false,
+
+        }
+    );
+    }
+  ,
   methods:{
 
     fetchData(id){
@@ -81,24 +112,13 @@ export default {
                 console.log(response)
                 this.blogInfo=response.data.data
                 this.blogInfo.content=marked(this.blogInfo.content)
+                this.blogInfo.publishTime=Date(this.blogInfo.publishTime).toLocaleString().slice(0,21);
+                console.log()
               }
           )
+    },
 
-      // this.blogInfo={'author':'Berumotto','date':'2020-11-14 10:12','title':'这是一个标题','content':'# 一级标题\n' +
-      //       '## 二级标题\n' +
-      //       '### 三级标题\n' +
-      //       '**加粗**\n' +
-      //       '\n' +
-      //       '```java\n' +
-      //       'public class Test{\n' +
-      //       '  public static void main(String[] args){\n' +
-      //       '    System.out.println("hello java");\n' +
-      //       '  }\n' +
-      //       '}\n' +
-      //       '\n' +
-      //       '```',}
 
-    }
   },
 
 }
