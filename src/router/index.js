@@ -57,6 +57,13 @@ const router = new Router({
         },
         {
             path: '/blog/edit/:id(\\d+)',
+            component: () => import('@/views/blog/components/editor'),
+            name: 'index',
+            meta: {title: 'Blog System', noCache: true,},
+            hidden: true
+        },
+        {
+            path: '/blog/index',
             component: () => import('@/views/blog/index'),
             name: 'EditArticle',
             meta: {title: 'Edit Article', noCache: true,},

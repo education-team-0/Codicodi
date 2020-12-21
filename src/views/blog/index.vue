@@ -8,17 +8,18 @@
 <!--    </el-row>-->
 
 
-    <el-dialog
-        title="在线运行"
-        :visible.sync="centerDialogVisible"
-        width="80%"
-        class="dialog"
-        center>
+<!--    <el-dialog-->
+<!--        title="在线运行"-->
+<!--        :visible.sync="centerDialogVisible"-->
+<!--        width="80%"-->
+<!--        class="dialog"-->
+<!--        center>-->
 
-      <onlineRun></onlineRun>
-    </el-dialog>
+<!--      <onlineRun></onlineRun>-->
+<!--    </el-dialog>-->
 
-    <editor class="editor"></editor>
+<!--    <editor class="editor"></editor>-->
+    <blog-cell></blog-cell>
 
   </div>
 
@@ -28,10 +29,11 @@
 import editor from "@/views/blog/components/editor"
 import codemirror from "@/views/blog/components/codemirror";
 import onlineRun from "@/views/blog/components/onlineRun";
+import blogCell from "@/views/blog/components/blogCell";
 export default {
   name: "index",
   components:{
-    editor,codemirror,onlineRun
+    editor,codemirror,onlineRun,blogCell
   },
   data(){
     return{

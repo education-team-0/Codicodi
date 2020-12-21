@@ -10,6 +10,10 @@
 
     </el-row>
 
+    <el-row>
+      <el-tag :type="randomColor" v-for="type in typeList" :key="type">{{type}}</el-tag>
+    </el-row>
+
   </div>
 </template>
 
@@ -21,7 +25,13 @@ export default {
   components: {carousel,login},
   data() {
     return{
+      typeList:[1,2,3,4]
 
+    }
+  },
+  methods:{
+    randomColor(){
+      return "success"
     }
   }
 }

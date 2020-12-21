@@ -32,10 +32,7 @@
       <el-col :offset="1" :span="22">
         <mavon-editor class="editor" v-model="editorContent"></mavon-editor>
       </el-col>
-
-
     </el-row>
-
 
   </div>
 </template>

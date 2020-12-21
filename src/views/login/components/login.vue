@@ -149,7 +149,7 @@ export default {
                       this.$store.dispatch("setUser",decoded)
 
                       this.loading = false
-                      this.$router.push('/blog/editor')
+                      this.$router.push('/blog/index')
 
                     }else{
                       if(response.data.meta.message == '用户名不存在!'){
