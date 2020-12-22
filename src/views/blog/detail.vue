@@ -39,6 +39,7 @@
             <el-row>
 
 
+
             </el-row>
 
           </el-card>
@@ -127,6 +128,9 @@ export default {
               }
           )
     },
+    Out(){
+      console.log("Click!")
+    }
 
 
   },
