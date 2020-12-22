@@ -9,7 +9,7 @@
             <el-tab-pane label="全部" name="all"></el-tab-pane>
             <el-tab-pane label="公开" name="publish"></el-tab-pane>
             <el-tab-pane label="草稿箱" name="draft"></el-tab-pane>
-            <el-tab-pane label="回收站" name="deleted"></el-tab-pane>
+<!--            <el-tab-pane label="回收站" name="deleted"></el-tab-pane>-->
           </el-tabs>
 
               <el-table :data="list" border fit highlight-current-row style="width: 100%">
@@ -32,7 +32,7 @@
                 </el-table-column>
                 <el-table-column class-name="status-col" label="Status" width="110">
                   <template slot-scope="{row}">
-                    <el-tag v-if="row.isPublished===1" :type="success">
+                    <el-tag v-if="row.isPublished===1" type="success">
                       Published
                     </el-tag>
                     <el-tag v-else>
@@ -53,7 +53,9 @@
                 <el-table-column min-width="100" label="edit">
                   <template slot-scope="{row}">
                     <router-link :to="'/blog/edit/'+row.blogId" class="link-type">
-                      <el-button>Edit</el-button>
+                      <el-button type="primary" size="small" icon="el-icon-edit">
+                        Edit
+                      </el-button>
                     </router-link>
                   </template>
                 </el-table-column>
@@ -77,6 +79,16 @@ import axios from "axios";
 
 export default {
   name: "list",
+  filters: {
+    statusFilter(status) {
+      const statusMap = {
+        published: 'success',
+        draft: 'info',
+        deleted: 'danger'
+      }
+      return statusMap[status]
+    }
+  },
   data(){
     return{
       activeName: 'all',

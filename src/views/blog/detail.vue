@@ -36,6 +36,11 @@
             </el-row>
             <el-divider></el-divider>
 
+            <el-row>
+
+
+            </el-row>
+
           </el-card>
         </el-row>
 
@@ -43,6 +48,7 @@
           <el-card  shadow="never">
             <h1>评论区</h1>
             <el-divider></el-divider>
+            <comment></comment>
           </el-card>
         </el-row>
 
@@ -56,6 +62,7 @@
 </template>
 
 <script>
+import comment from "@/views/blog/components/comment";
 import marked from 'marked'
 import axios from "axios";
 import hljs from "highlight.js"
@@ -65,6 +72,9 @@ import 'highlight.js/styles/idea.css'
 import 'highlight.js/styles/arta.css'  //不错！
 export default {
   name: "detail",
+  components:{
+    comment
+  },
   data(){
     return{
       detail:'',

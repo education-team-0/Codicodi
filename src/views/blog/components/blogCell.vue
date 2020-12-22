@@ -23,7 +23,11 @@
 
             <p class="operate_info">
               <el-row>
-                <el-col :span="8">
+                <el-col :span="3">
+                  <span>@{{blog.author}}</span>
+                </el-col>
+                <el-col :span="5">
+
                   <span class="publish-time">At time /<a>{{blog.date}}</a></span>
                 </el-col>
 
