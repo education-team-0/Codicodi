@@ -1,44 +1,45 @@
 <template>
   <div id="run">
-
-<!--    <h1>Markdown</h1>-->
-
-<!--    <el-row>-->
-<!--      <el-button type="primary" @click="centerDialogVisible = true">在线运行</el-button>-->
-<!--    </el-row>-->
+    <div v-for="blog in blogList" :key="blog.blogId">
+      <blog-cell :blog="blog" class="blog"></blog-cell>
+    </div>
 
 
-<!--    <el-dialog-->
-<!--        title="在线运行"-->
-<!--        :visible.sync="centerDialogVisible"-->
-<!--        width="80%"-->
-<!--        class="dialog"-->
-<!--        center>-->
-
-<!--      <onlineRun></onlineRun>-->
-<!--    </el-dialog>-->
-
-<!--    <editor class="editor"></editor>-->
-    <blog-cell></blog-cell>
 
   </div>
 
 </template>
 
 <script>
-import editor from "@/views/blog/components/editor"
-import codemirror from "@/views/blog/components/codemirror";
-import onlineRun from "@/views/blog/components/onlineRun";
 import blogCell from "@/views/blog/components/blogCell";
+import axios from "axios";
+import marked from "marked";
 export default {
   name: "index",
-  components:{
-    editor,codemirror,onlineRun,blogCell
+  components:{blogCell
   },
   data(){
     return{
-      centerDialogVisible: false
+      centerDialogVisible: false,
+      blogList:[]
     }
+  },
+  methods:{
+    getBlog(){
+      var url='/blog/getall?username=admin'
+      axios.get(url)
+          .then(
+              response => {
+                console.log(response)
+                this.blogList=response.data.data;
+
+              }
+          )
+
+    }
+  },
+  created() {
+    this.getBlog();
   }
 }
 </script>
@@ -53,9 +54,9 @@ export default {
 .dialog{
   /*height: 90% !important;*/
 }
-/*.editor{*/
-/*  height:70% !important;*/
-/*}*/
+.blog{
+  margin-top: 15px;
+}
 
 
 </style>

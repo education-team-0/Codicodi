@@ -4,15 +4,15 @@
       <el-card shadow="never">
         <span class="header">评论</span>
         <el-divider class="divider"></el-divider>
-        <div v-for="comment in reverseComments" :key="comment.commentId">
+        <div v-for="comment in comments" :key="comment.commentId">
           <el-row style="margin-top: 10px">
             <el-col :span="2">
               <el-image style="width: 65px;height: 65px" :src="url"></el-image>
             </el-col>
             <el-col :span="20">
               <el-row>
-                <a href="http://www.baidu.com" style="font-size: 20px;text-decoration: none;font-weight: bold">{{comment.userName}}</a>
-                <span style="color: rgba(0,0,0,.4);margin-left: 10px;font-size: .875em">{{comment.date}}</span>
+                <a href="http://www.baidu.com" style="font-size: 20px;text-decoration: none;font-weight: bold">{{comment.username}}</a>
+                <span style="color: rgba(0,0,0,.4);margin-left: 10px;font-size: .875em">{{comment.time}}</span>
               </el-row>
               <el-row>
                 <span style="color: rgba(0,0,0,.87);font-size: 16px;margin-top: 3px">{{comment.content}}</span>
@@ -92,9 +92,16 @@
 
 <script>
 import {validUsername} from "@/util/validate";
+import axios from "axios";
+import marked from "marked";
 
 export default {
   name: "comment",
+  props:{
+    blogId:{
+      Type:Object
+    }
+  },
   data(){
     const validateUsername = (rule, value, callback) => {
       if (value === '') {
@@ -118,13 +125,13 @@ export default {
       }
     }
     return{
+      comments:[{'commentId':1,'content':'i love you','date':'2020/12/23 10:36','userName':'Berumotto'}],
       commentForm:{
         textarea:'',
         username:'',
         email:'',
       },
       url:'https://github.com/Berumotto1/ZeroCup/blob/master/touxiang3.jpg?raw=true',
-      comments:[{'commentId':1,'content':'i love you','date':'2020/12/23 10:36','userName':'Berumotto'}],
       commentRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         email: [{ required: true, trigger: 'blur', validator: validateEmail },
@@ -135,17 +142,36 @@ export default {
     }
   },
   methods:{
+    getComments(){
+      var url='/comment/getbyblog?blogId='+this.blogId
+      axios.get(url)
+          .then(
+              response => {
+                console.log(response)
+                this.comments=response.data.data
+              }
+          )
+    },
     addComment(){
       this.$refs['commentForm'].validate((valid) => {
         if (valid) {
+          var url='/comment/publish'
           var date=new Date();
-          this.comments.push({
-            'CommentId':'2',
+          axios.post(url,{
+            'blogid':this.blogId,
             'content':this.commentForm.textarea,
-            'date':date.toLocaleString(),
-            'userName':this.commentForm.username
-          })
-          this.$refs['commentForm'].resetFields();
+            'time':date,
+            'username':this.commentForm.username
+          }).then(response => {
+            console.log(response)
+            this.getComments()
+            this.$message({
+                  message: '评论成功!',
+                  type: 'success'
+                    });
+                  }
+              )
+
         } else {
           console.log('error submit!!');
           return false;
@@ -154,13 +180,15 @@ export default {
 
     }
   },
-
+  created() {
+    this.getComments()
+  },
   computed: {
-    reverseComments() {
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      var tempComments=JSON.parse(JSON.stringify(this.comments));
-      return tempComments.reverse();
-    }
+    // reverseComments() {
+    //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //   // var tempComments=JSON.parse(JSON.stringify(this.comments));
+    //   // return tempComments.reverse();
+    // }
   }
 }
 </script>

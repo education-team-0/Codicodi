@@ -174,22 +174,6 @@ export default {
             )
       }
 
-
-
-      //正则获取类的名字
-      // var reg = new RegExp(/public class ([\s\S]*?){/);
-      // var className=reg.exec(this.content)
-      // axios.post(url,{
-      //   "codeType":this.codeType,
-      //   "className":className[1],
-      //   "code":this.content
-      // })
-      //     .then(
-      //         response => {
-      //           this.content2 = response.data.data;
-      //         }
-      //     )
-
     },
     changeLanguage(){
       if(this.codeType.toLowerCase()=='java'){

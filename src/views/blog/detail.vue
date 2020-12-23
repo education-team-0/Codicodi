@@ -23,8 +23,8 @@
                   <el-col  :span="3"><span class="greyText">Author: </span>{{blogInfo.author }}</el-col>
                   <el-col :span="7"><span class="greyText">Pubish Date: </span><span>{{blogInfo.publishTime}}</span></el-col>
                   <el-col :span="7"><span class="greyText">Update Date: </span><span>{{blogInfo.publishTime}}</span></el-col>
-                  <el-col :span="3"> <span class="readings"><a ><i class="el-icon-view"></i> {{blogInfo.viewFrequency}} </a></span>
-                  <span class="likes"><a ><i class="el-icon-star-on"></i> {{blogInfo.star}} </a></span></el-col>
+                  <el-col :span="3"> <span class="readings"><a ><i class="el-icon-view"></i> {{blogInfo.viewfrequency}} </a></span>
+                  <span class="likes"><a ><i class="el-icon-star-on"></i> {{blogInfo.collectnum}} </a></span></el-col>
                 </el-row>
 
               </el-card>
@@ -37,9 +37,6 @@
             <el-divider></el-divider>
 
             <el-row>
-
-
-
             </el-row>
 
           </el-card>
@@ -49,18 +46,12 @@
           <el-card  shadow="never">
 <!--            <h1>评论区</h1>-->
 <!--            <el-divider></el-divider>-->
-            <comment></comment>
+            <comment :blog-id="this.id"></comment>
           </el-card>
         </el-row>
-
-
       </el-col>
 
     </el-row>
-<!--    <template>-->
-
-<!--      <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>-->
-<!--    </template>-->
 
   </div>
 </template>
@@ -70,7 +61,6 @@ import comment from "@/views/blog/components/comment";
 import marked from 'marked'
 import axios from "axios";
 import hljs from "highlight.js"
-// import 'highlight.js/styles/monokai-sublime.css'
 import 'highlight.js/styles/mono-blue.css'
 import 'highlight.js/styles/idea.css'
 import 'highlight.js/styles/arta.css'  //不错！
@@ -83,14 +73,15 @@ export default {
     return{
       detail:'',
       blogInfo:'',
-
+      id:''
     }
 
   },
   created() {
     const id = this.$route.params && this.$route.params.id
-    console.log(this.$route)
-    console.log(this.$route.params)
+    this.id=id
+    // console.log(this.$route)
+    // console.log(this.$route.params)
     this.fetchData(id)
     console.log(this.blogInfo)
 
@@ -118,7 +109,6 @@ export default {
 
     fetchData(id){
       //请求后端接口获取数据
-      console.log("fetchData")
       var url="/blog/getBlogById?id="+id;
       axios.get(url)
           .then(
