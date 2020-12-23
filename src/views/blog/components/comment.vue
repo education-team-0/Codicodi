@@ -32,37 +32,54 @@
     </div>
 
     <div class="input-part" style="margin-top: 20px">
-      <el-input
-          type="textarea"
-          maxlength="100"
-          show-word-limit
-          :rows="6"
-          placeholder="请输入内容"
-          v-model="textarea"
-          class="inputArea">
-      </el-input>
-
-      <el-row style="margin-top: 15px">
-        <el-col :span="6">
+      <el-form :model="commentForm" :rules="commentRules" ref="commentForm">
+        <el-form-item prop="textarea">
           <el-input
-              placeholder="Username"
-              v-model="username">
-            <i slot="prefix" class="el-input__icon el-icon-user-solid"></i>
+              type="textarea"
+              maxlength="100"
+              show-word-limit
+              :rows="6"
+              placeholder="请输入内容"
+              v-model="commentForm.textarea"
+              class="inputArea"
+              >
           </el-input>
-        </el-col>
-        <el-col :span="5">
-          <el-input
-              placeholder="Email"
-              v-model="email"
-              style="margin-left: 10px">
-            <i slot="prefix" class="el-input__icon el-icon-message"></i>
-          </el-input>
-        </el-col>
-        <el-col :span="5" style="margin-left: 20px">
-          <el-button type="primary" icon="el-icon-edit-outline" @click="addComment">发布</el-button>
+        </el-form-item>
 
-        </el-col>
-      </el-row>
+
+
+        <el-row>
+
+          <el-col :span="5">
+            <el-form-item  prop="username">
+              <el-input
+                  placeholder="Username"
+                  v-model="commentForm.username"
+                  >
+                <i slot="prefix" class="el-input__icon el-icon-user-solid"></i>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item prop="email">
+              <el-input
+                  placeholder="Email"
+                  v-model="commentForm.email"
+                  style="margin-left: 10px"
+              >
+                <i slot="prefix" class="el-input__icon el-icon-message"></i>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col style="margin-left: 20px;" :span="6">
+            <el-form-item>
+              <el-button type="primary" icon="el-icon-edit-outline" @click="addComment">发布</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+      </el-form>
+
 
     </div>
 
@@ -74,29 +91,67 @@
 </template>
 
 <script>
+import {validUsername} from "@/util/validate";
+
 export default {
   name: "comment",
   data(){
+    const validateUsername = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('用户名不能为空'))
+      } else {
+        callback()
+      }
+    }
+    const validateEmail = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('邮箱不能为空'))
+      } else {
+        callback()
+      }
+    }
+    const validateComment = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('评论内容不能为空'))
+      } else {
+        callback()
+      }
+    }
     return{
-      textarea:'',
-      username:'',
-      email:'',
+      commentForm:{
+        textarea:'',
+        username:'',
+        email:'',
+      },
       url:'https://github.com/Berumotto1/ZeroCup/blob/master/touxiang3.jpg?raw=true',
-      comments:[{'commentId':1,'content':'i love you','date':'2020/12/23 10:36','userName':'Berumotto'}]
+      comments:[{'commentId':1,'content':'i love you','date':'2020/12/23 10:36','userName':'Berumotto'}],
+      commentRules: {
+        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        email: [{ required: true, trigger: 'blur', validator: validateEmail },
+                { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+            ],
+        textarea: [{ required: true, trigger: 'blur', validator: validateComment }]
+      },
     }
   },
   methods:{
     addComment(){
-      var date=new Date();
-      this.comments.push({
-        'CommentId':'2',
-        'content':this.textarea,
-        'date':date.toLocaleString(),
-        'userName':this.username
-      })
-      this.username='';
-      this.email='';
-      this.textarea='';
+      this.$refs['commentForm'].validate((valid) => {
+        if (valid) {
+          var date=new Date();
+          this.comments.push({
+            'CommentId':'2',
+            'content':this.commentForm.textarea,
+            'date':date.toLocaleString(),
+            'userName':this.commentForm.username
+          })
+          this.$refs['commentForm'].resetFields();
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+
     }
   },
 
