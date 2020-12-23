@@ -103,7 +103,8 @@ export default {
   computed: {
     reverseComments() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      return this.comments.reverse();
+      var tempComments=JSON.parse(JSON.stringify(this.comments));
+      return tempComments.reverse();
     }
   }
 }
