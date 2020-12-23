@@ -12,7 +12,7 @@
             <el-col :span="20">
               <el-row>
                 <a href="http://www.baidu.com" style="font-size: 20px;text-decoration: none;font-weight: bold">{{comment.username}}</a>
-                <span style="color: rgba(0,0,0,.4);margin-left: 10px;font-size: .875em">{{comment.time}}</span>
+                <span style="color: rgba(0,0,0,.4);margin-left: 10px;font-size: .875em">{{formatDate(comment.date)}}</span>
               </el-row>
               <el-row>
                 <span style="color: rgba(0,0,0,.87);font-size: 16px;margin-top: 3px">{{comment.content}}</span>
@@ -94,7 +94,7 @@
 import {validUsername} from "@/util/validate";
 import axios from "axios";
 import marked from "marked";
-
+import moment from 'moment'
 export default {
   name: "comment",
   props:{
@@ -171,12 +171,17 @@ export default {
                     });
                   }
               )
-
         } else {
           console.log('error submit!!');
           return false;
         }
       });
+
+    },
+    formatDate(str){
+      return moment(str).format('YYYY-MM-DD HH:mm:ss')
+    },
+    addView(){
 
     }
   },

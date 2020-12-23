@@ -21,8 +21,8 @@
                 <!--              <span>个人信息</span>-->
                 <el-row>
                   <el-col  :span="3"><span class="greyText">Author: </span>{{blogInfo.author }}</el-col>
-                  <el-col :span="7"><span class="greyText">Pubish Date: </span><span>{{blogInfo.publishTime}}</span></el-col>
-                  <el-col :span="7"><span class="greyText">Update Date: </span><span>{{blogInfo.publishTime}}</span></el-col>
+                  <el-col :span="7"><span class="greyText">Pubish Date: </span><span>{{blogInfo.publishtime}}</span></el-col>
+                  <el-col :span="7"><span class="greyText">Update Date: </span><span>{{blogInfo.updatetime}}</span></el-col>
                   <el-col :span="3"> <span class="readings"><a ><i class="el-icon-view"></i> {{blogInfo.viewfrequency}} </a></span>
                   <span class="likes"><a ><i class="el-icon-star-on"></i> {{blogInfo.collectnum}} </a></span></el-col>
                 </el-row>
@@ -64,6 +64,7 @@ import hljs from "highlight.js"
 import 'highlight.js/styles/mono-blue.css'
 import 'highlight.js/styles/idea.css'
 import 'highlight.js/styles/arta.css'  //不错！
+import moment from 'moment'
 export default {
   name: "detail",
   components:{
@@ -80,10 +81,12 @@ export default {
   created() {
     const id = this.$route.params && this.$route.params.id
     this.id=id
+    this.updateView()
     // console.log(this.$route)
     // console.log(this.$route.params)
     this.fetchData(id)
     console.log(this.blogInfo)
+
 
   },
   mounted() {
@@ -116,13 +119,23 @@ export default {
                 console.log(response)
                 this.blogInfo=response.data.data
                 this.blogInfo.content=marked(this.blogInfo.content)
-                this.blogInfo.publishTime=Date(this.blogInfo.publishTime).toLocaleString().slice(0,21);
-                console.log()
+                var date1=new Date(this.blogInfo.publishtime);
+                this.blogInfo.publishtime=moment(date1).format('YYYY-MM-DD HH:mm:ss')//date1.toLocaleString().slice(0,10)+' '+date1.toLocaleString().slice(13)
+                var date2=new Date(this.blogInfo.updatetime);
+                this.blogInfo.updatetime=moment(date2).format('YYYY-MM-DD HH:mm:ss')
               }
           )
     },
     Out(){
       console.log("Click!")
+    },
+    updateView(){
+      var url='/blog/blog/updateView?blogid='+this.id
+      axios.get(url) .then(
+          response => {
+           console.log(response);
+          }
+      )
     }
 
 

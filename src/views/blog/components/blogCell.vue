@@ -10,7 +10,7 @@
                 </router-link>
               </div>
             <div class="tags" style="margin-top: 10px">
-              <el-tag style="margin-left: 10px" :key="tag.id"  v-for ="(tag) in blog.tags">{{tag}}</el-tag>
+              <el-tag style="margin-left: 10px" :key="tag.id"  v-for ="(tag) in tagArr">{{tag}}</el-tag>
             </div>
 
             <p  style="margin-left: 10px" class="desc">{{blog.desciption}}<router-link :to="'/blog/detail/'+blog.blogid" class="link-type">
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: "blogCell",
   props:{
@@ -70,6 +71,8 @@ export default {
   },
   data(){
     return{
+      tagArr:[]
+      // date:''
       // blog:{
       //     'blogId':1,'author':'Berumotto','date':'2020-11-14 10:12','title':'这是一个标题','content':'# 一级标题\n',
       //   'tagList':["JAVA","Docker","BlogSystem"],'description':'这是一条描述！李明获得了保研名额，张华准备出国...我们都有光明的未来！','readNum':999,'starNum':999,
@@ -77,8 +80,11 @@ export default {
       // }
     }
   },
-  computed:{
+  created() {
+    var date=new Date(this.blog.updatetime);
+    this.blog.updatetime=moment(date).format('YYYY-MM-DD HH:mm:ss')
 
+    this.tagArr=(this.blog.tags+"").split(',')
   }
 
 }
