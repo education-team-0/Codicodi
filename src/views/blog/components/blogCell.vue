@@ -4,14 +4,16 @@
       <el-row style="text-align: left">
         <el-col :span="23">
           <div class="text-wrapper">
-            <h4 class="title">
-              <router-link :to="'/blog/detail/'+blog.blogId" class="link-type">
-                <span style="margin-left: 10px">{{ blog.title }}</span>
-              </router-link>
-            </h4>
+              <div class="title">
+                <router-link :to="'/blog/detail/'+blog.blogId">
+                  <span>{{ blog.title }}</span>
+                </router-link>
+              </div>
 
 
-            <div class="tags">
+
+
+            <div class="tags" style="margin-top: 10px">
               <el-tag style="margin-left: 10px" :key="tag.id"  v-for ="(tag) in blog.tagList">{{tag}}</el-tag>
             </div>
 
@@ -88,10 +90,9 @@ export default {
   margin-left: 10px;
 }
 .title{
-
-font-size:23px;
-font-weight:100;
-line-height:27px;
+font-size:20px;
+/*font-weight:100;*/
+/*line-height:25px;*/
 }
 
 a{

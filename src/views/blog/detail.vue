@@ -1,13 +1,13 @@
 <template>
   <div style="height: 100%;">
     <el-row style="height: 100%">
-      <el-col :offset="1" :span="4" style="height: 100%">
-        <el-card class="box-card author-card" shadow="hover">
-          <h1>个人信息</h1>
-        </el-card>
-      </el-col>
+<!--      <el-col :offset="1" :span="4" style="height: 100%">-->
+<!--        <el-card class="box-card author-card" shadow="hover">-->
+<!--          <h1>个人信息</h1>-->
+<!--        </el-card>-->
+<!--      </el-col>-->
 
-      <el-col :span="18" style="margin-left: 10px">
+      <el-col :span="18" :offset="3">
         <el-row>
           <el-card class="box-card" shadow="never">
             <el-row style="text-align: left">
@@ -47,8 +47,8 @@
 
         <el-row style="margin-top: 10px">
           <el-card  shadow="never">
-            <h1>评论区</h1>
-            <el-divider></el-divider>
+<!--            <h1>评论区</h1>-->
+<!--            <el-divider></el-divider>-->
             <comment></comment>
           </el-card>
         </el-row>
@@ -57,7 +57,10 @@
       </el-col>
 
     </el-row>
+<!--    <template>-->
 
+<!--      <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>-->
+<!--    </template>-->
 
   </div>
 </template>
