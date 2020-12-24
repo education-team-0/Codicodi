@@ -130,7 +130,7 @@ export default {
       console.log("Click!")
     },
     updateView(){
-      var url='/blog/blog/updateView?blogid='+this.id
+      var url='/blog/updateView?blogid='+this.id
       axios.get(url) .then(
           response => {
            console.log(response);

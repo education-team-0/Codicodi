@@ -37,21 +37,11 @@
                 <el-col></el-col>
 
               </el-row>
-
-
             </p>
-
-
           </div>
-
-
         </el-col>
-
         <el-col :span="6">
-
         </el-col>
-
-
       </el-row>
     </el-card>
 

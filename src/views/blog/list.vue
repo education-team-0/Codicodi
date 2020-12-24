@@ -15,13 +15,13 @@
               <el-table :data="list" border fit highlight-current-row style="width: 100%">
                 <el-table-column align="center" label="ID" width="80">
                   <template slot-scope="scope">
-                    <span>{{ scope.row.blogId }}</span>
+                    <span>{{ scope.row.blogid }}</span>
                   </template>
                 </el-table-column>
 
                 <el-table-column width="230px" align="center" label="Date">
                   <template slot-scope="scope">
-                    <span>{{ scope.row.publishTime  }}</span>
+                    <span>{{ scope.row.publishtime  }}</span>
                   </template>
                 </el-table-column>
 
@@ -32,7 +32,7 @@
                 </el-table-column>
                 <el-table-column class-name="status-col" label="Status" width="110">
                   <template slot-scope="{row}">
-                    <el-tag v-if="row.isPublished===1" type="success">
+                    <el-tag v-if="row.ispublished===1" type="success">
                       Published
                     </el-tag>
                     <el-tag v-else>
@@ -44,7 +44,7 @@
 
                 <el-table-column min-width="150" label="Title">
                   <template slot-scope="{row}">
-                    <router-link :to="'/blog/detail/'+row.blogId" class="link-type">
+                    <router-link :to="'/blog/detail/'+row.blogid" class="link-type">
                       <span>{{ row.title }}</span>
                     </router-link>
                   </template>
@@ -52,7 +52,7 @@
 
                 <el-table-column min-width="100" label="edit">
                   <template slot-scope="{row}">
-                    <router-link :to="'/blog/edit/'+row.blogId" class="link-type">
+                    <router-link :to="'/blog/edit/'+row.blogid" class="link-type">
                       <el-button type="primary" size="small" icon="el-icon-edit">
                         Edit
                       </el-button>
