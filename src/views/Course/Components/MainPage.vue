@@ -3,38 +3,36 @@
     <el-card style="padding: 32px 27px 9px 18px">
       <div class="progressGridWrap">
         <el-progress :text-inside="true" :stroke-width="22" :percentage="80" status="warning"></el-progress>
-
-        <div style="justify-self: right"><span class="btn">开始学习</span></div>
+        <div style="justify-self: right"><span class="btn">{{ '开始学习' }}</span></div>
         <div style="justify-self: left">目前已完成<strong>{{ 0 }}</strong> 个课时,加油啊！</div>
         <div style="justify-self: right">下一个课时:加油学习哦</div>
       </div>
-
     </el-card>
     <div class="main-container">
       <el-card style="width: 70%">
         <div slot="header">
           <span style="font-size: 20px;font-weight: bold;">目录</span>
         </div>
-          <div v-for="(item,index) in chapters" :key="index">
-            <div class="chapterItem" style="background-color: #f6f6f6;font-size: 14px;">
-              <span style="width:50px">章节</span>
-              <div class="circle" :style='item.isChapterFinished|chapterStepCircleFilter'>{{ index + 1 }}</div>
-              <div style="color: #9d9797">{{ item.chapterTitle }}</div>
-            </div>
-            <div class="sectionWrap">
-              <div v-for="(item2,index2) in item.sections" :key="index2">
-                <div class="sectionItem">
-                  <span style="color: #9d9797;width: 50px">课时{{ index2 + 1 }}</span>
-                  <div class="sectionCircle" :style="item.sectionStep|sectionStepCircleFilter(index2)"></div>
-                  <div>{{ item2 }}</div>
-                  <div title="开始播放" style="flex-grow: 1;text-align: right" @click="toVideo(1,index,index2)">
-                    <span class="play"><i class="el-icon-video-play"/>{{ ' ' + '03:30' }}</span>
-                  </div>
+        <div v-for="(item,index) in chapters" :key="index">
+          <div class="chapterItem" style="background-color: #f6f6f6;font-size: 14px;">
+            <span style="width:50px">章节</span>
+            <div class="circle" :style='item.isChapterFinished|chapterStepCircleFilter'>{{ index + 1 }}</div>
+            <div style="color: #9d9797">{{ item.chapterTitle }}</div>
+          </div>
+          <div class="sectionWrap">
+            <div v-for="(item2,index2) in item.sections" :key="index2">
+              <div class="sectionItem">
+                <span style="color: #9d9797;width: 50px">课时{{ index2 + 1 }}</span>
+                <div class="sectionCircle" :style="item.sectionStep|sectionStepCircleFilter(index2)"></div>
+                <div>{{ item2 }}</div>
+                <div title="开始播放" style="flex-grow: 1;text-align: right" @click="toVideo(1,index,index2)">
+                  <span class="play"><i class="el-icon-video-play"/>{{ ' ' + '03:30' }}</span>
                 </div>
-                <div class="jointLine" v-if="index2<item.sections.length-1"></div>
               </div>
+              <div class="jointLine" v-if="index2<item.sections.length-1"></div>
             </div>
           </div>
+        </div>
       </el-card>
       <el-card style="width: 30%;margin-left: 15px;padding: 0 10px">
         <div slot="header">
@@ -50,10 +48,13 @@
                 score-template="{value}">
             </el-rate>
           </div>
-          <div style="width: 70%;margin: 10px 0">
-            请尽可能详尽描述你的学习经历，例如学
-            习成果、课程内容、讲师风格、教学服务
-            等。
+          <div style="margin: 5px 0 10px 0;position: relative">
+            <label>
+            <textarea style="resize: none;width: 100%;"
+                      rows="8" placeholder="请尽可能详尽描述你的学习经历，例如学习成果、课程内容、讲师风格、教学服务等.....">
+            </textarea>
+            </label>
+            <div class="submmitComment">提交评价</div>
           </div>
           <div class="commentItem">
             <div style="display: flex;justify-content: space-between;align-items: center">
@@ -74,7 +75,21 @@
             <div style="margin: 10px 0">
               {{ '请尽可能详尽描述你的学习经历，例如习成果、课程内容、讲师风格、教学服务等。请尽可能详尽描述你的学习经历，例如学习成果、课程内容、讲师风格、教学服务等。' }}
             </div>
-            <div style="text-align: right;">{{ '该学员已学习15小时' }}</div>
+            <div class="commentBottom">
+              <div>
+                <span class="goodPraise" :class="{goodPraiseActive:isPlayAnimation}"
+                      @click="playAnimation"></span>
+                <span>{{ 1221 }}</span>
+              </div>
+              <div>
+                <span class="badPraise" :class="{badPraiseActive:isPlayAnimation}"
+                      @click="playAnimation"></span>
+                <span>{{ 1221 }}</span>
+              </div>
+              <div>
+                该学员已学习<b>{{ 260 }}</b>小时
+              </div>
+            </div>
           </div>
         </div>
       </el-card>
@@ -88,6 +103,11 @@ export default {
   name: "MainPage",
   data() {
     return {
+      isPlayAnimation: false,
+      test: {
+        backgroundColor: "red",
+        height: '200px'
+      },
       chapters: [{
         isChapterFinished: true,
         sectionStep: 3,
@@ -140,19 +160,34 @@ export default {
 
     }
   },
-  methods:{
+  methods: {
+    closeAnimation() {
+      this.isPlayAnimation = false
+    },
+    playAnimation() {
+      this.isPlayAnimation = true
+      setTimeout(this.closeAnimation, 1000)
+    },
     //idx1,idx2 第几章第几节
-    toVideo(idx1,idx2, idx3){
-      const {href}=this.$router.resolve({
-        name:'courseVideo',
-        params:{
-          courseId:idx1,
-          chapter:idx2,
-          section:idx3
+    toVideo(idx1, idx2, idx3) {
+      const {href} = this.$router.resolve({
+        name: 'courseVideo',
+        params: {
+          courseId: idx1,
+          chapter: idx2,
+          section: idx3
         }
       })
       //以新页面打开
-      window.open(href,'_blank')
+      window.open(href, '_blank')
+      // this.$router.push({
+      //   name: 'courseVideo',
+      //   params: {
+      //     courseId: idx1,
+      //     chapter: idx2,
+      //     section: idx3
+      //   }
+      // })
     }
   }
 }
@@ -162,7 +197,6 @@ export default {
 .main-container {
   display: flex;
   margin: 10px 0;
-  align-items: flex-start;
 }
 
 .progressGridWrap {
@@ -180,8 +214,12 @@ export default {
   background-color: #42b983;
   color: white;
   font-weight: bold;
+  cursor: default;
+  user-select: none;
 }
-
+.progressGridWrap .btn:active{
+  font-size: 0.9em;
+}
 .chapterItem {
   display: flex;
   padding: 15px;
@@ -226,10 +264,85 @@ export default {
 .commentItem {
   margin: 10px 0;
 }
-.play:hover{
+
+.play:hover {
   color: #42b983;
   font-size: 18px;
-  transition: font-size .5s ease  ;
+  transition: font-size .5s ease;
   cursor: pointer;
+}
+
+.commentBottom {
+  text-align: center;
+}
+
+.commentBottom > div {
+  display: inline-block;
+  width: 30%;
+  white-space: nowrap;
+}
+
+.commentBottom > div > .goodPraise, .badPraise {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  margin: 0 5px;
+}
+
+.goodPraise + span, .badPraise + span {
+  display: inline-block;
+  width: 64px;
+  text-align: left;
+}
+
+.goodPraise {
+  background-image: url("http://edures.oss-cn-hangzhou.aliyuncs.com/icon/praise.svg");
+}
+
+.badPraise {
+  background-image: url("http://edures.oss-cn-hangzhou.aliyuncs.com/icon/praise.svg");
+  transform: rotate(180deg);
+}
+
+.goodPraiseActive {
+  background-image: url("http://edures.oss-cn-hangzhou.aliyuncs.com/icon/praiseBlue.svg");
+  animation: goodPraiseAnimation 1s 1;
+}
+
+.badPraiseActive {
+  animation: badPraiseAnimation 1s 1;
+}
+
+@keyframes goodPraiseAnimation {
+  50% {
+    transform: rotate(-60deg)
+  }
+  100% {
+    transform: rotate(0deg)
+  }
+}
+
+@keyframes badPraiseAnimation {
+  50% {
+    transform: rotate(240deg)
+  }
+  100% {
+    transform: rotate(180deg)
+  }
+}
+
+.submmitComment {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 6px 12px;
+  background-color: #42b983;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.submmitComment:active{
+  transform: scale(.9,.9);
 }
 </style>

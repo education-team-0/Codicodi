@@ -10,13 +10,21 @@ const types ={
 const state = {
     isAuthenticated: false,
     user: {
-        userId:'test'
+        userId:'test',
+        name:"realZheng",
+        avatar:'userAvatar/hello.png'
+    },
+    user2: {
+        userId:'test2',
+        name:"杨洪朝",
+        avatar:'course/1.png'
     }
 };
 
 const getters ={
     isAuthenticated: state =>state.isAuthenticated,
-    user: state => state.user
+    user: state => state.user,
+    user2: state => state.user2
 };
 
 const mutations ={

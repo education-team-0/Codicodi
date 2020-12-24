@@ -17,13 +17,16 @@ const router = new Router({
             path: '/',
             component: () => import("@/views/Course/Course"),
             meta: {
-                title: 'login'
+                title: '课程详情'
             }
         },
         {
             name: 'courseVideo',
             path: '/course/video/:courseId/:chapter/:section',
-            component: () => import("@/views/Course/Components/CourseVideo/CourseVideo")
+            component: () => import("@/views/Course/Components/CourseVideo/CourseVideo"),
+            meta: {
+                title: '在线课程'
+            }
         },
         {
             path: '/test',

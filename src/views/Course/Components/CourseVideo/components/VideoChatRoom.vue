@@ -1,20 +1,21 @@
 <template>
   <div class="main-wrap">
-    <div class="chat-window">
+    <div ref="msg" id="chat_msg" class="chat-window">
+      <div style="text-align: center;margin-top: 10px;color: white">在线人数:{{ onlineNum }}人</div>
       <div class="message-item" v-for="(item,index) in messageList" :key="index">
         <div v-if="item['left']" class="left">
           <div style="grid-row: 1/3;grid-column: 1/2;text-align: center;">
             <el-avatar :src="item.avatar"></el-avatar>
           </div>
           <div style="font-size: 0.8em;color: #9d9797">{{ item.name }}</div>
-          <div class="message">{{ item.message }}</div>
+          <div class="message" v-html="item.message"></div>
         </div>
         <div v-else class="right">
           <div style="grid-row: 1/3;grid-column: 2/3;text-align: center;">
             <el-avatar :src="item.avatar"></el-avatar>
           </div>
           <div style="font-size: 0.8em;color: #9d9797">{{ item.name }}</div>
-          <div class="message">{{ item.message }}</div>
+          <div class="message" v-html="item.message"></div>
         </div>
       </div>
     </div>
@@ -31,7 +32,7 @@
           </el-popover>
           <div :class="[btnDown?'send-btn-down':'','send-btn']" @mousedown="btndown" @mouseup="btnup">发 送</div>
         </div>
-        <div id="sendMsg" v-html="msgContent" contenteditable="true" @input="changeText"></div>
+        <div ref="sendMsg" id="sendMsg" contenteditable="true"></div>
       </div>
     </div>
   </div>
@@ -47,7 +48,9 @@ export default {
   },
   data() {
     return {
-      msgContent: '', //表情还没有被转成标签
+      offScrollTop: 0,
+      ws: {},   //websocket
+      onlineNum: 0,
       btnDown: false,
       messageList: [{
         left: 1,
@@ -103,31 +106,107 @@ export default {
         },]
     }
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
-    changeText(e){
-      console.log(e)
-      this.msgContent=document.getElementById("sendMsg").innerHTML
+    sendMsg(val) {
+      if (val) {
+        console.log(val)
+        let msgObj = {}
+        msgObj['msgType'] = 1
+        msgObj['message'] = val
+        this.ws.send(JSON.stringify(msgObj))
+        const user = this.$store.getters.user
+        msgObj = {
+          right: true,
+          name: user.name,
+          avatar: this.imgUrl + user.avatar,
+          message: val
+        }
+        this.messageList.push(msgObj)
+        this.$nextTick(() => {
+          this.scrollToBottom()
+        })
 
+      }
+    },
+    initWebsocket() {
+      const params = this.$route.params
+      const courseid = params.courseId + params.chapter + params.section
+      const userId = this.$store.getters.user2.userId
+      const wsUrl = "ws://localhost:8081/chat/" + courseid + "/" + userId
+      const that = this
+      this.ws = new WebSocket(wsUrl)
+      this.ws.onopen = function (event) {
+        console.log('连接打开')
+      }
+      this.ws.onmessage = function (e) {
+
+        const msg = JSON.parse(e.data)
+        console.log(msg)
+        switch (msg.msgType) {
+          case 0:
+            that.onlineNum = msg.number
+            break
+          case 1: {
+            that.messageList.push({
+              left: true,
+              name: msg.name,
+              avatar: that.imgUrl + msg.avatar,
+              message: msg.message
+            })
+            that.$nextTick(() => {
+              that.scrollToBottom()
+            })
+            break
+          }
+        }
+
+      }
+      this.ws.onclose = () => {
+        console.log("连接关闭")
+      }
+
+      window.onbeforeunload = function () {
+        this.ws.close()
+      }
+    },
+
+    scrollToBottom() {
+      const el = document.getElementById("chat_msg")
+      el.scrollTop = el.scrollHeight
+      this.offScrollTop=el.scrollTop
     },
     emotion(res) {
       let word = res.replace(/[#;]/gi, '')
       const list = ['微笑', '撇嘴', '色', '发呆', '得意', '流泪', '害羞', '闭嘴', '睡', '大哭', '尴尬', '发怒', '调皮', '呲牙', '惊讶', '难过', '酷', '冷汗', '抓狂', '吐', '偷笑', '可爱', '白眼', '傲慢', '饥饿', '困', '惊恐', '流汗', '憨笑', '大兵', '奋斗', '咒骂', '疑问', '嘘', '晕', '折磨', '衰', '骷髅', '敲打', '再见', '擦汗', '抠鼻', '鼓掌', '糗大了', '坏笑', '左哼哼', '右哼哼', '哈欠', '鄙视', '委屈', '快哭了', '阴险', '亲亲', '吓', '可怜', '菜刀', '西瓜', '啤酒', '篮球', '乒乓', '咖啡', '饭', '猪头', '玫瑰', '凋谢', '示爱', '爱心', '心碎', '蛋糕', '闪电', '炸弹', '刀', '足球', '瓢虫', '便便', '月亮', '太阳', '礼物', '拥抱', '强', '弱', '握手', '胜利', '抱拳', '勾引', '拳头', '差劲', '爱你', 'NO', 'OK', '爱情', '飞吻', '跳跳', '发抖', '怄火', '转圈', '磕头', '回头', '跳绳', '挥手', '激动', '街舞', '献吻', '左太极', '右太极']
       let index = list.indexOf(word)
-      return `<img src="https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/${index}.gif" style="vertical-align: middle">`
+      return `<img src="https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/${index}.gif" style="vertical-align: text-bottom">`
     },
     handleEmotion(val) {
-      let res=this.emotion(val)
-      this.msgContent+=res
+      let res = this.emotion(val)
+      let el = document.getElementById("sendMsg")
+      el.innerHTML += res
+      el.focus()
+      const range = window.getSelection(); //创建range
+      range.selectAllChildren(el); //range 选择obj下所有子内容
+      range.collapseToEnd();
     },
     btndown() {
       this.btnDown = true
     },
     btnup() {
       this.btnDown = false
+      this.sendMsg(document.getElementById("sendMsg").innerHTML)
+      document.getElementById("sendMsg").innerHTML = ''
     }
+  },
+  activated() {
+    document.getElementById('chat_msg').scrollTop=this.offScrollTop;
+    console.log(this.offScrollTop)
+
+  },
+  created() {
+    this.initWebsocket()
   }
 }
 </script>
@@ -139,16 +218,16 @@ export default {
 
 .main-wrap .chat-window {
   padding: 0 10px 10px 10px;
-  height: 55%;
+  height: 60%;
   background-image: url("http://edures.oss-cn-hangzhou.aliyuncs.com/background/background.png");
   background-size: contain;
-  background-repeat: repeat-y;
+  background-repeat: repeat;
   overflow-y: scroll;
 }
 
 .main-wrap .send-window {
   margin: 10px 0 0 0;
-  height: 40%
+  height: 36%
 }
 
 .message-item {
@@ -156,9 +235,9 @@ export default {
 }
 
 .message-item .message {
-  word-break: break-word;
+  word-break: break-all;
   border-radius: 5px;
-  padding: 3px;
+  padding: 7px;
 }
 
 .left .message {
@@ -218,14 +297,17 @@ export default {
   transition: all .1s ease;
 }
 
-div[contenteditable] {
+div[contenteditable]#sendMsg {
   outline: none;
   word-break: break-all;
-  padding:10px;
-  border:none;
-  font-size:1.1em;
+  padding: 10px;
+  border: none;
+  font-size: 1.1em;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
   flex-grow: 1;
+  line-height: 1.2em;
+  height: 1px;
+  overflow-y: scroll;
 
 }
 </style>

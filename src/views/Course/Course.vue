@@ -1,28 +1,5 @@
 <template>
   <div class="main-container">
-    <div class="header">
-      <div style="font-size: 16px;">
-        <span style="font-size: 28px">朝哥云课堂</span>
-        <span>课程分类<i class="el-icon-arrow-down"></i></span>
-        <span>微专业</span>
-        <span><i class="el-icon-present">关注领福利</i></span>
-      </div>
-      <div style="font-size: 14px;border-radius: 20px">
-        <span>课程<i class="el-icon-arrow-down"></i></span>
-        <el-input style="width: fit-content;" placeholder="搜索课程" suffix-icon="el-icon-search"
-                  v-model="value"></el-input>
-      </div>
-      <div style="font-size: 14px">
-        <span>我的学习</span>
-        <el-badge :value="12">
-          <span style="font-size: 17px"><i class="el-icon-bell"></i></span>
-        </el-badge>
-        <span style="font-size: 17px;margin-left: 30px"><i class="el-icon-shopping-cart-2"></i></span>
-        <span style="align-self: stretch;background-color: white;width: 1px"></span>
-        <span>郑建宙</span>
-        <span> <el-avatar :src="imgUrl+'userAvatar/hello.png'"></el-avatar></span>
-      </div>
-    </div>
     <el-card class="box-card" :body-style="{padding:'30px 30px 62px 30px'}">
       <div class="course-detail">
 
@@ -32,8 +9,7 @@
           <span style="font-size: 12px;color: #9C8F8E94">{{ 1923 }}人学过</span>
           <el-rate
               style="margin-left: 43px;font-size: 12px"
-              v-model="rateStar"
-
+              v-model="score"
               disabled
               show-score
               text-color="#ff9900"
@@ -67,15 +43,18 @@ import MainPage from "@/views/Course/Components/MainPage";
 export default {
   name: "Course",
   data() {
+    console.log(this)
     return {
       value: 'abc',
-      rateStar:3.7,
-      ratio: '代码练习区'
+      score:3.7,
+      otherscore:3.7,
+      ratio: '主页'
     }
   },
   components:{
     MainPage,
-    onlineRun
+    onlineRun,
+
   },
   filters:{
     componentFilter(val){
@@ -87,32 +66,14 @@ export default {
   },
   methods:{
 
-  }
+  },
+  created() {
+  },
 }
 </script>
 
 <style scoped>
 .main-container {
-}
-
-
-.header {
-  color: white;
-  text-align: center;
-  background-color: black;
-  display: flex;
-  justify-content: space-evenly;
-  padding: 11px 0px;
-}
-
-.header > div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header span {
-  margin: 0 20px;
 }
 
 .course-detail {

@@ -1,13 +1,5 @@
-.el-input__inner{
-    background-color: #9CA6A4A4;
-    border-radius: 20px;
-    border: none;
-    color: white;
-}
-.el-radio-button__inner{
-    background-color: white;
-    border-color: white;
-    color: #9d9797;
+.el-input{
+    width: 100%;
 }
 .el-radio-button:first-child .el-radio-button__inner{
     border-left:none;
@@ -34,4 +26,10 @@
 }
 .video-js .vjs-control-bar{
     z-index: 1 !important;
+}
+input:focus{
+    outline: none;
+}
+textarea:focus{
+    outline: none;
 }

@@ -1,6 +1,6 @@
 <template>
-  <div style="display: flex;">
-    <div :style="{position:'relative',width:width*0.65+'px',height:height+'px','flex-shrink':0}">
+  <div :style="{display:'flex',height:height*0.96+'px',width:'100%'}">
+    <div :style="{position:'relative',width:width*0.65+'px','flex-shrink':0}">
       <video-player class="video-player vjs-custom-skin" style="height: 100%"
                     :options="playerOptions">
       </video-player>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div style="flex-grow: 1;" >
-      <el-card class="box-card" :body-style="{padding:'0 10px 10px 10px'}">
+      <el-card class="box-card" :body-style="{padding:'0'}">
         <div class="right_container">
           <div>
             <el-radio-group style="width: 100%" v-model="option">
@@ -27,8 +27,8 @@
             </el-radio-group>
           </div>
           <div class="content">
-            <keep-alive style="height: 100%">
-              <component  style="height: 100%" :is="option|optionFilter"></component >
+            <keep-alive>
+              <component :is="option|optionFilter"></component >
             </keep-alive>
           </div>
         </div>
@@ -53,8 +53,7 @@ export default {
       //浏览器宽高
       width: document.documentElement.clientWidth,
       height: document.documentElement.clientHeight,
-      //websocket
-      ws: {},
+
       messageList: [1, 2, 3, 4, 5, 6, 7],
 
       // 视频播放
@@ -69,7 +68,7 @@ export default {
         fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
         sources: [{
           type: "",
-          //src: this.imgUrl + 'video/test.mp4'//url地址
+          src: this.imgUrl + 'video/test.mp4'//url地址
         }],
         poster: "", //你的封面地址
         // width: document.documentElement.clientWidth,
@@ -114,26 +113,6 @@ export default {
     }
   },
   methods: {
-    loadmessage() {
-
-    },
-    initWebsocket() {
-      const params = this.$route.params
-      const courseid = params.courseId + params.chapter + params.section
-      const userId = this.$store.getters.user.userId
-      const wsUrl = "ws://localhost:8081/chat/" + courseid + "/" + userId
-      this.ws = new WebSocket(wsUrl)
-      this.ws.onopen = function (event) {
-        console.log('连接打开')
-      }
-      this.ws.onclose = () => {
-        console.log("连接关闭")
-      }
-
-      window.onbeforeunload = function () {
-        this.ws.close()
-      }
-    },
     addlist() {
       let list = [{
         id: 1,
@@ -162,12 +141,6 @@ export default {
         });
       });
     }
-  },
-  created() {
-    this.initWebsocket()
-  },
-  mounted() {
-    this.addlist()
   }
 }
 </script>
@@ -181,14 +154,13 @@ export default {
 
 .right_container .content {
   flex-grow: 1;
-}
-html,body{
-  height: 100%;
+  height: 1px;
 }
 
 .box-card {
   margin-left: 10px;
-  height: 89%;
+  padding: 0 10px;
+  height: 105%;
 }
 
 
@@ -201,9 +173,6 @@ html,body{
 </style>
 
 <style lang="less">
-.video-js{
-  bottom: 27px;
-}
 .el-card__body{
   height: 100%;
 }
