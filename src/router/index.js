@@ -12,14 +12,24 @@ Vue.use(Router)
 const router = new Router({
     mode: 'hash',
     routes: [
+        // {
+        //     name:'/login',
+        //     path: '/',
+        //     component:()=>import('@/views/login/index'),
+        //     meta:{
+        //         title: 'course'
+        //     }
+        // },
         {
-            name: '/',
+            name: '/course',
             path: '/',
             component: () => import("@/views/Course/Course"),
             meta: {
                 title: '课程详情'
+
             }
         },
+
         {
             name: 'courseVideo',
             path: '/course/video/:courseId/:chapter/:section',
@@ -28,17 +38,11 @@ const router = new Router({
                 title: '在线课程'
             }
         },
-        {
-            path: '/test',
-            component: () => import("@/views/test/hello"),
-            meta: {
-                title: 'hello'
-            }
-        },
+
 
         {
             path: '/blog/editor',
-            component: () => import("@/views/blog/index"),
+            component: () => import("@/views/blog/components/editor"),
             meta: {
                 title: 'editor'
             }
@@ -52,11 +56,26 @@ const router = new Router({
         },
         {
             path: '/blog/edit/:id(\\d+)',
+            component: () => import('@/views/blog/components/editor'),
+            name: 'index',
+            meta: {title: 'Blog System', noCache: true,},
+            hidden: true
+        },
+        {
+            path: '/blog/index',
             component: () => import('@/views/blog/index'),
             name: 'EditArticle',
             meta: {title: 'Edit Article', noCache: true,},
             hidden: true
         },
+        {
+            path:'/blog/detail/:id(\\d+)',
+            component:()=>import('@/views/blog/detail'),
+            name: 'blogDetail',
+            meta: {title: 'Blog Detail',noCache: true},
+            hidden: true
+        }
+
 
 
         // {
@@ -94,14 +113,14 @@ const router = new Router({
 })
 
 /*路由守卫   根据登录获得token*/
-// router.beforeEach((to,from,next) =>{
-//     const isLogin = Cookies.get('Token') ? true :false ;
-//     if(to.path ==="/" || to.path ==="/login" || to.path==="/blog/editor"){
-//         next();
-//     }else{
-//         isLogin ? next() :next("/")   /*真跳转  假注册*/
-//     }
-// })
+router.beforeEach((to,from,next) =>{
+    const isLogin = Cookies.get('Token') ? true :false ;
+    if(to.path ==="/" || to.path ==="/login" || to.path==="/hello"){
+        next();
+    }else{
+        isLogin ? next() :next("/")   /*真跳转  假注册*/
+    }
+})
 
 
 export default router

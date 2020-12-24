@@ -23,7 +23,7 @@
             <el-select v-model="cmOptions.theme" placeholder="切换主题" >
             <span slot="prefix" style="font-size: 30px">
              <el-tooltip content="更换主题">
-              <i class="icon-pifu"></i>
+              <i class="el-icon-setting" style="font-size: 18px"></i>
             </el-tooltip>
             </span>
               <el-option v-for="(item,index) in supportThemes" :key="index" :label="item" :value="item">
@@ -38,11 +38,6 @@
             <codemirror id="code" ref="coder" v-model="content" :options="cmOptions" @changes="onChange"></codemirror>
           </el-col>
           <el-col :offset=1 :span=7>
-<!--            <el-card class="box-card">-->
-<!--              <div>-->
-<!--                {{content2}}-->
-<!--              </div>-->
-<!--            </el-card>-->
             <codemirror id="result"  v-model="result" :options="resultOptions"></codemirror>
           </el-col>
         </el-row>
@@ -51,9 +46,9 @@
           <el-col :span=1 :offset=9>
             <el-button type="success" icon="el-icon-video-play" @click="runCode">运行</el-button>
           </el-col>
-          <el-col :span=1 :offset=1>
-            <el-button type="danger" icon="el-icon-video-play">中止</el-button>
-          </el-col>
+<!--          <el-col :span=1 :offset=1>-->
+<!--            <el-button type="danger" icon="el-icon-video-play">中止</el-button>-->
+<!--          </el-col>-->
           <el-col :span=1 :offset=1>
             <el-button @click="printContent">打印内容</el-button>
           </el-col>
@@ -83,6 +78,10 @@ import "codemirror/theme/blackboard.css";
 import "codemirror/theme/idea.css"
 import "codemirror/theme/elegant.css"
 import "codemirror/theme/dracula.css"
+
+import 'highlight.js/styles/mono-blue.css'
+import 'highlight.js/styles/idea.css'
+import 'highlight.js/styles/arta.css'  //不错！
 import axios from "axios";
 
 export default {
@@ -128,12 +127,6 @@ export default {
   },
   methods:{
     init(){
-      // let myTextarea = document.getElementById('code');
-      // this.coder=codemirror.fromTextArea(myTextarea, {
-      //   mode:'java',
-      //   extraKeys: {"Ctrl": "autocomplete"},
-      //   lineNumbers: true//显示行号
-      // });
     },
     onChange(){
 
@@ -146,8 +139,8 @@ export default {
     runCode(){
       //var url="http://81.68.205.41:8080/online/run?codeType=java&className="+this.content;
 
-      var url="http://81.68.205.41:8080/online/run/"+this.codeType.toLowerCase();
-      if(this.codeType.toLowerCase()=='java'){
+      var url="/online/run/"+this.codeType.toLowerCase();
+      if(this.codeType.toLowerCase()==='java'){
         //java需要类名，单独列出一个
         var reg = new RegExp(/public class ([\s\S]*?){/);
         var className=reg.exec(this.content)
@@ -174,22 +167,6 @@ export default {
             )
       }
 
-
-
-      //正则获取类的名字
-      // var reg = new RegExp(/public class ([\s\S]*?){/);
-      // var className=reg.exec(this.content)
-      // axios.post(url,{
-      //   "codeType":this.codeType,
-      //   "className":className[1],
-      //   "code":this.content
-      // })
-      //     .then(
-      //         response => {
-      //           this.content2 = response.data.data;
-      //         }
-      //     )
-
     },
     changeLanguage(){
       if(this.codeType.toLowerCase()=='java'){
@@ -211,7 +188,7 @@ export default {
         this.content='#include<iostream>\n' +
             'using namespace std;\n' +
             'int main(){\n' +
-            '  cout<<"hello c++"<<endl;\n' +
+            '  cout<<"hello cpp"<<endl;\n' +
             '  return 0;\n' +
             '}'
       }else if(this.codeType.toLowerCase()=='python'){

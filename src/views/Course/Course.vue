@@ -40,6 +40,7 @@
 <script>
 import onlineRun from "@/views/blog/components/onlineRun";
 import MainPage from "@/views/Course/Components/MainPage";
+import   editor from  "@/views/blog/components/editor"
 export default {
   name: "Course",
   data() {
@@ -54,6 +55,7 @@ export default {
   components:{
     MainPage,
     onlineRun,
+    editor
 
   },
   filters:{
@@ -61,6 +63,7 @@ export default {
       switch (val){
         case "主页":return 'MainPage'
         case "代码练习区":return  'onlineRun'
+        case "笔记":return 'editor'
       }
     }
   },
@@ -71,6 +74,15 @@ export default {
   },
 }
 </script>
+
+<style>
+.el-input__inner{
+  background-color: #9CA6A4A4;
+  border-radius: 20px;
+  border: none;
+  color: white;
+}
+</style>
 
 <style scoped>
 .main-container {

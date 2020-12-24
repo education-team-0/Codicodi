@@ -129,7 +129,7 @@ export default {
 
           //临时方法
           var url='/user/login?name='+this.loginForm.username+'&pass='+this.loginForm.password;
-          axios.post(url)
+          axios.get(url)
               .then(
                   response=>{
                     if(response.data.meta.success == true){
@@ -149,7 +149,7 @@ export default {
                       this.$store.dispatch("setUser",decoded)
 
                       this.loading = false
-                      this.$router.push('/test')
+                      this.$router.push('/blog/index')
 
                     }else{
                       if(response.data.meta.message == '用户名不存在!'){

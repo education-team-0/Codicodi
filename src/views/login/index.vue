@@ -1,5 +1,6 @@
 <template>
   <div class="main-container">
+<!--    <github-corner class="github-corner"></github-corner>-->
     <el-row>
       <el-col :span=10 :offset=3>
         <carousel></carousel>
@@ -8,11 +9,11 @@
         <login></login>
       </el-col>
 
-
-
-
     </el-row>
 
+<!--    <el-row>-->
+<!--      <el-tag :type="randomColor" v-for="type in typeList" :key="type">{{type}}</el-tag>-->
+<!--    </el-row>-->
 
   </div>
 </template>
@@ -20,12 +21,19 @@
 <script>
 import carousel from "@/views/login/components/carousel";
 import login from "@/views/login/components/login";
+import GithubCorner from "@/components/GithubCorner";
 export default {
   name: 'Login',
-  components: {carousel,login},
+  components: {GithubCorner, carousel,login},
   data() {
     return{
+      typeList:[1,2,3,4]
 
+    }
+  },
+  methods:{
+    randomColor(){
+      return "success"
     }
   }
 }

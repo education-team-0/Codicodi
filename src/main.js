@@ -35,7 +35,11 @@ Vue.use(VueCodemirror)
 Vue.prototype.imgUrl='http://edures.oss-accelerate.aliyuncs.com/'
 
 //设置axios请求后端接口的前缀url
-axios.defaults.baseURL='http://localhost:8081'
+
+// axios.defaults.baseURL='http://localhost:8081'
+
+axios.defaults.baseURL='http://81.68.205.41:8080'
+
 
 Vue.prototype.test=new Vue({
   store,

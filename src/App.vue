@@ -9,7 +9,9 @@
                     :items="courseType"
         >课程分类<i class="el-icon-arrow-down"></i></SelectSpan>
         <span @click="showUpload=true">上传视频</span>
-        <span><i class="el-icon-present">关注领福利</i></span>
+        <span @click="$router.push({
+        path: '/blog/editor'
+        })"><i class="el-icon-present">发布博客</i></span>
       </div>
       <div style="font-size: 14px;position: relative">
         <span>课程<i class="el-icon-arrow-down"></i></span>
@@ -19,7 +21,9 @@
         <i class="el-icon-search inputSuffix" @click="search"></i>
       </div>
       <div style="font-size: 14px">
-        <span>我的学习</span>
+        <span @click="$router.push({
+         path: '/blog/list',
+        })">博客管理</span>
         <el-badge :value="12">
           <span style="font-size: 17px"><i class="el-icon-bell"></i></span>
         </el-badge>
@@ -29,7 +33,9 @@
         <span> <el-avatar :src="imgUrl+'userAvatar/hello.png'"></el-avatar></span>
       </div>
     </div>
-
+<!--    <img alt="Vue logo" src="./assets/logo.png">-->
+<!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
+    <github-corner></github-corner>
     <router-view v-wechat-title='$route.meta.title'/>
 
     <div class="navigateTop" :style="{visibility:naviTopVisibility}" @click="toTop">
@@ -40,13 +46,12 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import Cookies from 'vue-cookies'
-import jwt from 'jwt-decode';
+import jwt from 'jwt-decode'
 import SelectSpan from "@/components/SelectSpan";
 import uploadVideo from "@/components/uploadVideo";
 import courseType from "@/data/courseType";
-
+import GithubCorner from "@/components/GithubCorner";
 export default {
   name: 'App',
   data(){
@@ -71,7 +76,7 @@ export default {
     }
   },
   components: {
-    HelloWorld,
+    GithubCorner,
     SelectSpan,
     uploadVideo
   },
@@ -84,12 +89,12 @@ export default {
     }
     window.onscroll=this.debounce()
 
-    this.$axios.post('/login',this.$qs.stringify({
-      id:'test',
-      pw:'123456'
-    })).then(res=>{
-      console.log(res)
-    })
+    // this.$axios.post('/login',this.$qs.stringify({
+    //   id:'test',
+    //   pw:'123456'
+    // })).then(res=>{
+    //   console.log(res)
+    // })
 
   },
   mounted() {
@@ -135,8 +140,15 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  /*text-align: center;*/
   color: #2c3e50;
+  margin-top: 60px;
+}
+.github-corner {
+  position: absolute;
+  top: 0px;
+  border: 0;
+  right: 0;
 }
 </style>
 <style scoped>
