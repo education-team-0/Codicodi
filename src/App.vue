@@ -89,7 +89,7 @@ export default {
 
     this.$axios.post('/login',JSON.stringify({
       id:'test',
-      pw:'11'
+      pw:'123456'
     }),{
       headers: {
         'Content-Type': 'application/json'

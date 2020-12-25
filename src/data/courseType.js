@@ -7,5 +7,8 @@ export default {
         nums+=numArray[Math.floor(Math.random()*36)]
     }
     return nums
-}
+},
+    getIntAreaNumber:function (a,b){
+        return Math.floor(Math.random()*(b-a+1)+a)
+    }
 }

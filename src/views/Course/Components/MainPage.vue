@@ -34,11 +34,11 @@
           </div>
         </div>
       </el-card>
-      <el-card style="width: 30%;margin-left: 15px;padding: 0 10px">
+      <el-card style="width: 30%;margin-left: 15px;padding: 0 10px;display: flex;flex-direction: column">
         <div slot="header">
           <span style="font-size: 20px;font-weight: bold;">评价</span>
         </div>
-        <div style="padding: 10px 0;font-size: 14px;color: #9d9797">
+        <div style="padding: 10px 0;font-size: 14px;color: #9d9797;">
           <div>给该课程打分:
             <el-rate
                 style="margin-left: 5px;font-size: 12px;display: inline-block;vertical-align: middle"
@@ -51,12 +51,13 @@
           <div style="margin: 5px 0 10px 0;position: relative">
             <label>
             <textarea style="resize: none;width: 100%;"
+                      v-model="mycomment"
                       rows="8" placeholder="请尽可能详尽描述你的学习经历，例如学习成果、课程内容、讲师风格、教学服务等.....">
             </textarea>
             </label>
-            <div class="submmitComment">提交评价</div>
+            <div class="submmitComment" @click="submitComment">提交评价</div>
           </div>
-          <div class="commentItem">
+          <div class="commentItem" v-for="(item,idx) in commentList" :key="idx">
             <div style="display: flex;justify-content: space-between;align-items: center">
               <div style="display: flex;align-items: center">
                 <el-avatar :src="imgUrl+'userAvatar/hello.png'"/>
@@ -73,17 +74,17 @@
               </el-rate>
             </div>
             <div style="margin: 10px 0">
-              {{ '请尽可能详尽描述你的学习经历，例如习成果、课程内容、讲师风格、教学服务等。请尽可能详尽描述你的学习经历，例如学习成果、课程内容、讲师风格、教学服务等。' }}
+              {{ item}}
             </div>
             <div class="commentBottom">
               <div>
-                <span class="goodPraise" :class="{goodPraiseActive:isPlayAnimation}"
-                      @click="playAnimation"></span>
+                <span class="goodPraise" :class="{goodPraiseActive:goodAnimationList[idx]}"
+                      @click="goodAnimationList.splice(idx,1,true)"></span>
                 <span>{{ 1221 }}</span>
               </div>
               <div>
-                <span class="badPraise" :class="{badPraiseActive:isPlayAnimation}"
-                      @click="playAnimation"></span>
+                <span class="badPraise" :class="{badPraiseActive:badAnimationList[idx]}"
+                      @click="badAnimationList.splice(idx,1,false)"></span>
                 <span>{{ 1221 }}</span>
               </div>
               <div>
@@ -126,7 +127,10 @@ export default {
           chapterTitle: 'test',
           sections: ["一分钟了解墨刀", '创建项目', '工具栏和弹窗设置面板', '工具栏和弹窗设置面板', '工具栏和弹窗设置面板']
         }],
-
+      mycomment:'',
+      commentList:[],
+      goodAnimationList:[],
+      badAnimationList:[],
       rateStar: 3.7
 
 
@@ -157,12 +161,13 @@ export default {
     }
   },
   methods: {
+    submitComment(){
+      this.commentList.push(this.mycomment)
+      this.goodAnimationList.push(false)
+      this.badAnimationList.push(false)
+    },
     closeAnimation() {
       this.isPlayAnimation = false
-    },
-    playAnimation() {
-      this.isPlayAnimation = true
-      setTimeout(this.closeAnimation, 1000)
     },
     //idx1,idx2 第几章第几节
     toVideo(idx1, idx2, idx3) {
@@ -250,6 +255,7 @@ export default {
 
 .commentItem {
   margin: 10px 0;
+  word-break: break-word;
 }
 
 .play:hover {

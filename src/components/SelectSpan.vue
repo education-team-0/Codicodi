@@ -1,7 +1,7 @@
 <template>
   <div class="main"
-       @mouseover="showover"
-       @mouseleave="showleave">
+       @mouseover="show=true"
+       @mouseleave="show=false">
     <slot></slot>
     <div class="select" v-show="show" >
       <div v-for="(item,index) in items" :key="index"
@@ -32,12 +32,6 @@ export default {
     }
   },
   methods: {
-    showover(){
-      this.show=true
-    },
-    showleave(){
-      this.show=false
-    },
     itemClicked(idx,event) {
       this.$emit('itemClicked', idx)
     },

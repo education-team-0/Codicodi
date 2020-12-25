@@ -18,11 +18,11 @@
         <el-form-item label="请输入课程名称 :">
           <el-input v-model="form.courseName" @input="getCourseId"></el-input>
         </el-form-item>
-        <el-form-item label="请输入章节名称 :">
-          <el-input v-model="form.chapterName"></el-input>
-        </el-form-item>
         <el-form-item label="请输入对该课程的描述 :">
           <el-input v-model="form.description"></el-input>
+        </el-form-item>
+        <el-form-item label="请输入章节名称 :">
+          <el-input v-model="form.chapterName"></el-input>
         </el-form-item>
         <el-form-item label="请上传该章节的教学视频 :">
           <br/>
@@ -156,12 +156,11 @@ export default {
               const result = await client.multipartUpload(objectName, file.raw, {
                 progress
               });
-              resolve(result)
-              //上传成功调用接口存储视频路径
-
-
-
-
+              resolve({
+                name:file.name,
+                url: result.name,
+                time: courseType.getIntAreaNumber(300,1200)
+              })
               console.log(result);
             } catch (e) {
               // 捕获超时异常。
@@ -173,14 +172,35 @@ export default {
               reject(e)
             }
           }
-
           multipartUpload();
         })
       })).then(res => {
         if (res.length !== 0) {
           this.loading = false
-          this.form.chapterName = ""
-          this.$message.success('文件上传成功');
+          //上传成功调用接口存储视频路径
+          let data={
+            course:{
+              id:this.courseId,
+              description: this.form.description,
+              courseName: this.form.courseName,
+              time: courseType.getIntAreaNumber(360000,720000),
+              type:this.form.type.value
+            },
+            chapterName:this.form.chapterName,
+            sections:res
+          }
+          console.log(data)
+          this.$axios.post('/insertVideo',JSON.stringify(data),{
+            headers: {
+              'Content-Type': 'application/json'
+            }}).then(res=>{
+              this.form.chapterName = ""
+              this.form.fileList=[]
+              this.form.fileProgress=[]
+              this.$message.success('文件上传成功');
+              console.log(res)
+          })
+
         } else {
           this.$message.warning('请选择上传文件');
         }

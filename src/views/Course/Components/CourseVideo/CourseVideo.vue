@@ -21,7 +21,7 @@
           <div>
             <el-radio-group style="width: 100%" v-model="option">
               <div class="tabBar">
-                <el-radio-button label="目录"></el-radio-button>
+                <el-radio-button label="代码练习区"></el-radio-button>
                 <el-radio-button label="讨论区"></el-radio-button>
               </div>
             </el-radio-group>
@@ -41,11 +41,11 @@
 import {MESSAGE_TYPE} from 'vue-baberrage'
 import VideoChatRoom from '@/views/Course/Components/CourseVideo/components/VideoChatRoom'
 import VideoChapter from "@/views/Course/Components/CourseVideo/components/VideoChapter";
-
+import editor from "@/views/blog/components/editor";
 export default {
   name: "CourseVideo",
   components: {
-    VideoChatRoom, VideoChapter
+    VideoChatRoom, VideoChapter,editor
   },
   data() {
     return {
@@ -68,7 +68,7 @@ export default {
         fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
         sources: [{
           type: "",
-          src: this.imgUrl + 'video/test.mp4'//url地址
+          src: this.imgUrl + '课程/达到/02_尚硅谷入门微服务简介.mp4'//url地址
         }],
         poster: "", //你的封面地址
         // width: document.documentElement.clientWidth,
@@ -105,8 +105,8 @@ export default {
   filters: {
     optionFilter(val) {
       switch (val) {
-        case '目录':
-          return 'VideoChapter'
+        case '代码练习区':
+          return 'editor'
         case '讨论区':
           return 'VideoChatRoom'
       }
