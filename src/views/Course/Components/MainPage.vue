@@ -104,10 +104,6 @@ export default {
   data() {
     return {
       isPlayAnimation: false,
-      test: {
-        backgroundColor: "red",
-        height: '200px'
-      },
       chapters: [{
         isChapterFinished: true,
         sectionStep: 3,
@@ -178,16 +174,7 @@ export default {
           section: idx3
         }
       })
-      //以新页面打开
       window.open(href, '_blank')
-      // this.$router.push({
-      //   name: 'courseVideo',
-      //   params: {
-      //     courseId: idx1,
-      //     chapter: idx2,
-      //     section: idx3
-      //   }
-      // })
     }
   }
 }

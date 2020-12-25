@@ -4,7 +4,8 @@
     <div class="contentWrap">
       <el-form :model="form">
         <el-form-item label="请选择类别 :">
-          <el-select v-model="form.type.value"
+          <el-select v-model="form.type.value "
+                     @change="getCourseId"
                      placeholder="请选择上传视频类别">
             <el-option
                 v-for="item in form.type.type"
@@ -15,10 +16,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="请输入课程名称 :">
-          <el-input v-model="form.courseName"></el-input>
+          <el-input v-model="form.courseName" @input="getCourseId"></el-input>
         </el-form-item>
         <el-form-item label="请输入章节名称 :">
           <el-input v-model="form.chapterName"></el-input>
+        </el-form-item>
+        <el-form-item label="请输入对该课程的描述 :">
+          <el-input v-model="form.description"></el-input>
         </el-form-item>
         <el-form-item label="请上传该章节的教学视频 :">
           <br/>
@@ -36,8 +40,9 @@
             <div class="el-upload__tip" slot="tip">只能上传MP4文件，且不超过500MB
               <span style="font-size: 1.3em;color: dodgerblue;
               margin-left: 10px;cursor: pointer" @click="upload">
-              开始上传
-            </span></div>
+              {{ loading?'正在上传':'开始上传' }} <i class="el-icon-loading" v-if="loading"></i>
+               </span>
+            </div>
           </el-upload>
           <div v-for="(item,idx) in form.fileList" :key="idx" style="margin:5px 0">
             <div>
@@ -59,7 +64,6 @@
 
 <script>
 import courseType from "@/data/courseType";
-
 export default {
   name: "uploadVideo",
   data() {
@@ -75,20 +79,25 @@ export default {
     })
     return {
       style: style,
+      loading: false,
+      courseId:'',
       form: {
         type: {
           type: type,
           value: ''
         },
-        loading: false,
         courseName: '',
         chapterName: '',
+        description: '',
         fileList: [],
         fileProgress: [],
       }
     }
   },
   methods: {
+    getCourseId(){
+      this.courseId=courseType.getNRandomNumber(16)
+    },
     closeU() {
       if (this.loading)
         this.$message.error('文件正在上传中');
@@ -100,6 +109,8 @@ export default {
       this.form.fileProgress = new Array(fileList.length).fill(0)
     },
 
+
+
     upload() {
       if (!this.form.courseName) {
         this.$message.error('请输入课程名');
@@ -109,6 +120,12 @@ export default {
         return
       } else if (!this.form.type.value) {
         this.$message.error('请选择课程类别');
+        return
+      } else if (!this.form.description) {
+        this.$message.error('请输入对该课程的描述');
+        return
+      } else if(this.loading){
+        this.$message.warning('正在上传文件');
         return
       }
       this.loading = true
@@ -142,6 +159,9 @@ export default {
               resolve(result)
               //上传成功调用接口存储视频路径
 
+
+
+
               console.log(result);
             } catch (e) {
               // 捕获超时异常。
@@ -153,13 +173,13 @@ export default {
               reject(e)
             }
           }
+
           multipartUpload();
         })
       })).then(res => {
         if (res.length !== 0) {
           this.loading = false
           this.form.chapterName = ""
-          this.form.courseName = ''
           this.$message.success('文件上传成功');
         } else {
           this.$message.warning('请选择上传文件');
@@ -167,7 +187,7 @@ export default {
         console.log(res)
 
       }, error => {
-        console.log(error)
+        this.$message.error(error);
         this.loading = false
       })
     },
@@ -183,7 +203,7 @@ export default {
   align-items: center;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 1;
   background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -208,7 +228,4 @@ export default {
   color: #9d9797;
 }
 
-el-input {
-  width: 70%;
-}
 </style>
