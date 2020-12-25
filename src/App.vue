@@ -14,7 +14,7 @@
         })"><i class="el-icon-present">发布博客</i></span>
       </div>
       <div style="font-size: 14px;position: relative">
-        <span>课程<i class="el-icon-arrow-down"></i></span>
+        <span @click="$router.push({path:'/blog/index'})">博客列表</span>
         <div class="input">
           <input v-model="value" aria-placeholder="搜索课程"/>
         </div>

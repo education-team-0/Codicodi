@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      option: '目录',
+      option: '讨论区',
       //浏览器宽高
       width: document.documentElement.clientWidth,
       height: document.documentElement.clientHeight,

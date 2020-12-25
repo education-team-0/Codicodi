@@ -84,7 +84,7 @@
               </div>
               <div>
                 <span class="badPraise" :class="{badPraiseActive:badAnimationList[idx]}"
-                      @click="badAnimationList.splice(idx,1,false)"></span>
+                      @click="badAnimationList.splice(idx,1,true)"></span>
                 <span>{{ 1221 }}</span>
               </div>
               <div>
@@ -108,24 +108,24 @@ export default {
       chapters: [{
         isChapterFinished: true,
         sectionStep: 3,
-        chapterTitle: '认识墨刀——就是这么简单高效',
-        sections: ["一分钟了解墨刀", '创建项目', '工具栏和弹窗设置面板', '工具栏和弹窗设置面板', '工具栏和弹窗设置面板']
+        chapterTitle: 'Mybatis',
+        sections: ["SQL", 'Hibernate 简介', 'SSM + Redis 结构框图及概述', 'Java 设计模式', 'JDK 动态代理']
       },
         {
-          chapterTitle: '认识墨刀——就是这么简单高效',
-          sections: ["一分钟了解墨刀", '创建项目', '工具栏和弹窗设置面板', '工具栏和弹窗设置面板', '工具栏和弹窗设置面板']
+          chapterTitle: 'AOP',
+          sections: ["自动映射和驼峰映射", '分页参数 RowBounds', 'sql 元素', 'resultMap 元素的构成', '续存配置顶、自定义和引用']
         },
         {
           isChapterFinished: true,
           sectionStep: 3,
-          chapterTitle: '认识墨刀——就是这么简单高效',
-          sections: ["一分钟了解墨刀", '创建项目', '工具栏和弹窗设置面板', '工具栏和弹窗设置面板', '工具栏和弹窗设置面板']
+          chapterTitle: '事务管理',
+          sections: ["SQL", 'Hibernate 简介', 'SSM + Redis 结构框图及概述', 'Java 设计模式', 'JDK 动态代理']
         },
         {
           isChapterFinished: false,
           sectionStep: 3,
-          chapterTitle: 'test',
-          sections: ["一分钟了解墨刀", '创建项目', '工具栏和弹窗设置面板', '工具栏和弹窗设置面板', '工具栏和弹窗设置面板']
+          chapterTitle: '动态SQL',
+          sections: ["自动映射和驼峰映射", '分页参数 RowBounds', 'sql 元素', 'resultMap 元素的构成', '续存配置顶、自定义和引用']
         }],
       mycomment:'',
       commentList:[],
@@ -166,9 +166,7 @@ export default {
       this.goodAnimationList.push(false)
       this.badAnimationList.push(false)
     },
-    closeAnimation() {
-      this.isPlayAnimation = false
-    },
+
     //idx1,idx2 第几章第几节
     toVideo(idx1, idx2, idx3) {
       const {href} = this.$router.resolve({

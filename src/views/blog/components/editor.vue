@@ -209,21 +209,6 @@ export default {
 
 
 
-      this.blog.updatetime=d;
-      this.blog.ispublished=0;
-      this.blog.content=this.editorContent
-      axios.post(url,
-        this.blog
-      )
-          .then(
-              response => {
-                console.log(response)
-                this.$message({
-                  message: '发布成功!',
-                  type: 'success'
-                });
-              }
-          )
 
     },
     publishBlog(){
@@ -279,30 +264,7 @@ export default {
       }
 
 
-      this.blog.updatetime=d;
-      this.blog.ispublished=1;
-      this.blog.desciption=this.blogForm.desc;
-      this.blog.content=this.editorContent
-      this.blog.tags=this.dynamicTags.toString();
-      axios.post(url,this.blog
-        // "title":this.title,
-        // "content":this.editorContent,
-        // "author":"admin",
-        // "publishtime":d,
-        // "ispublished":1,
-        // "blogid":this.$route.params && this.$route.params.id,
-        // "desciption":this.blogForm.desc,
-        // "tags":this.dynamicTags.toString(),
-      )
-          .then(
-              response => {
-                console.log(response)
-                this.$message({
-                  message: '发布成功!',
-                  type: 'success'
-                });
-              }
-          )
+
       this.DialogVisible=false
       this.blogForm.desc=''
       this.dynamicTags= ['Spring','Blog','SpringBoot']

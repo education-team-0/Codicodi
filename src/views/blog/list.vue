@@ -110,18 +110,21 @@ export default {
     }
   },
   created() {
-    var url="blog/getall?username="+"admin";
-    axios.get(url)
-        .then(
-            response => {
-              console.log(response)
-              this.list=response.data.data
-
-            }
-        )
+    this.getBlog()
 
   },
   methods:{
+    getBlog(){
+      var url="blog/getall?username="+"admin";
+      axios.get(url)
+          .then(
+              response => {
+                console.log(response)
+                this.list=response.data.data
+
+              }
+          )
+    },
     handleClick() {
       var url;
       switch (this.activeName){
@@ -157,6 +160,7 @@ export default {
                   message: '删除成功!',
                   type: 'success'
                 });
+                this.getBlog()
               }
           )
     }
