@@ -12,7 +12,8 @@
             <el-col :span="20">
               <el-row>
                 <a href="http://www.baidu.com" style="font-size: 20px;text-decoration: none;font-weight: bold">{{comment.username}}</a>
-                <span style="color: rgba(0,0,0,.4);margin-left: 10px;font-size: .875em">{{formatDate(comment.date)}}</span>
+                <span style="color: rgba(0,0,0,.4);margin-left: 10px;font-size: .875em">{{formatDate(comment.time)}}</span>
+                <span><el-button size="mini" plain style="font-size: 10px;margin-left: 10px" @click="deleteComment(comment.commentid)">删除</el-button></span>
               </el-row>
               <el-row>
                 <span style="color: rgba(0,0,0,.87);font-size: 16px;margin-top: 3px">{{comment.content}}</span>
@@ -181,7 +182,22 @@ export default {
     },
     addView(){
 
+    },
+    deleteComment(commentid){
+      var url='/comment/delete?commentid='+commentid
+      axios.delete(url)
+          .then(
+              response => {
+                console.log(response)
+                this.$message({
+                  message: '删除成功!',
+                  type: 'success'
+                });
+                this.getComments();
+              }
+          )
     }
+
   },
   created() {
     this.getComments()
