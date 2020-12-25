@@ -33,8 +33,6 @@
         <span> <el-avatar :src="imgUrl+'userAvatar/hello.png'"></el-avatar></span>
       </div>
     </div>
-<!--    <img alt="Vue logo" src="./assets/logo.png">-->
-<!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
     <github-corner></github-corner>
     <router-view v-wechat-title='$route.meta.title'/>
 
@@ -89,12 +87,16 @@ export default {
     }
     window.onscroll=this.debounce()
 
-    // this.$axios.post('/login',this.$qs.stringify({
-    //   id:'test',
-    //   pw:'123456'
-    // })).then(res=>{
-    //   console.log(res)
-    // })
+    this.$axios.post('/login',JSON.stringify({
+      id:'test',
+      pw:'11'
+    }),{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res=>{
+      console.log(res)
+    })
 
   },
   mounted() {
@@ -162,7 +164,7 @@ export default {
 }
 .input{
   margin: 5px 0;
-  background-color: #9d9797;
+  background-color: #4c4646;
   align-self: stretch;
   padding: 10px;
   border-radius: 23px/20px;
@@ -176,7 +178,7 @@ export default {
   cursor: pointer;
 }
 .input>input{
-  background-color: #9d9797;
+  background-color: #4c4646;
   position: relative;
   border: none;
   color: white;

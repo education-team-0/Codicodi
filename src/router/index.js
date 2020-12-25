@@ -21,7 +21,7 @@ const router = new Router({
         //     }
         // },
         {
-            name: '/course',
+            name: 'course',
             path: '/',
             component: () => import("@/views/Course/Course"),
             meta: {
@@ -112,15 +112,15 @@ const router = new Router({
 
 })
 
-/*路由守卫   根据登录获得token*/
-router.beforeEach((to,from,next) =>{
-    const isLogin = Cookies.get('Token') ? true :false ;
-    if(to.path ==="/" || to.path ==="/login" || to.path==="/hello"){
-        next();
-    }else{
-        isLogin ? next() :next("/")   /*真跳转  假注册*/
-    }
-})
+// /*路由守卫   根据登录获得token*/
+// router.beforeEach((to,from,next) =>{
+//     const isLogin = Cookies.get('Token') ? true :false ;
+//     if(to.path ==="/" || to.path ==="/login" || to.path==="/hello"){
+//         next();
+//     }else{
+//         isLogin ? next() :next("/")   /*真跳转  假注册*/
+//     }
+// })
 
 
 export default router

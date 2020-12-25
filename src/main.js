@@ -26,7 +26,6 @@ Vue.prototype.$axios = axios
 Vue.prototype.$qs=qs
 Vue.use(Cookies)
 Vue.use(mavonEditor)
-Vue.prototype.$observable=Vue.observable
 //vue codemirror  前端代码编辑
 import VueCodemirror from "vue-codemirror";
 import 'codemirror/lib/codemirror.css'
@@ -36,9 +35,9 @@ Vue.prototype.imgUrl='http://edures.oss-accelerate.aliyuncs.com/'
 
 //设置axios请求后端接口的前缀url
 
-// axios.defaults.baseURL='http://localhost:8081'
+axios.defaults.baseURL='http://localhost:8081'
 
-axios.defaults.baseURL='http://81.68.205.41:8080'
+// axios.defaults.baseURL='http://81.68.205.41:8080'
 
 
 Vue.prototype.test=new Vue({
