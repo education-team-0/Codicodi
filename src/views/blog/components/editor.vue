@@ -10,7 +10,7 @@
       <el-col :span="13">
         <el-input
             placeholder="请输入标题"
-            v-model="blog.title"
+            v-model="title"
             clearable>
         </el-input>
       </el-col>
@@ -129,6 +129,7 @@ export default {
       console.log(this.$route)
       console.log(this.$route.params)
       if(id){
+        console.log("fetchData")
         this.fetchData(id)
       }
     }
@@ -152,58 +153,115 @@ export default {
                 this.blogForm.desc=this.blog.desciption
                 this.dynamicTags=(this.blog.tags+"").split(',')
                 this.editorContent=this.blog.content
+                this.title=this.blog.title
               }
           )
     },
     publishDraft(){
       var d=new Date();
       var url="blog/publish";
-      var id;
+      var id = this.$route.params && this.$route.params.id
+      if(id){
+        this.blog.updatetime=d;
+        this.blog.ispublished=0;
+        this.blog.content=this.editorContent
+        this.blog.title=this.title
+        axios.post(url,
+            this.blog
+        )
+            .then(
+                response => {
+                  console.log(response)
+                  this.$message({
+                    message: '发布成功!',
+                    type: 'success'
+                  });
+                }
+            )
+      }else{
+        axios.post(url,
+            {
+              "title":this.title,
+              "content":this.editorContent,
+              "author":"admin",
+              "publishtime":d,
+              "updatetime":d,
+              "ispublished":0,
+              "blogid":this.$route.params && this.$route.params.id,
+              "desciption":this.blogForm.desc,
+              "tags":this.dynamicTags.toString(),
+              "commentnum":0,
+              "collectnum":0,
+              "starnum":0,
+              "viewfrequency":0
+            }
+        )
+            .then(
+                response => {
+                  console.log(response)
+                  this.$message({
+                    message: '发布成功!',
+                    type: 'success'
+                  });
+                }
+            )
+      }
 
-      this.blog.updatetime=d;
-      this.blog.ispublished=0;
-      this.blog.content=this.editorContent
-      axios.post(url,
-        this.blog
-      )
-          .then(
-              response => {
-                console.log(response)
-                this.$message({
-                  message: '发布成功!',
-                  type: 'success'
-                });
-              }
-          )
+
     },
     publishBlog(){
       var d=new Date();
       var url="blog/publish";
+      var id = this.$route.params && this.$route.params.id
 
-      this.blog.content=this.editorContent
-      this.blog.updatetime=d;
-      this.blog.ispublished=1;
-      this.blog.desciption=this.blogForm.desc;
-      this.blog.tags=this.dynamicTags.toString();
-      axios.post(url,this.blog
-        // "title":this.title,
-        // "content":this.editorContent,
-        // "author":"admin",
-        // "publishtime":d,
-        // "ispublished":1,
-        // "blogid":this.$route.params && this.$route.params.id,
-        // "desciption":this.blogForm.desc,
-        // "tags":this.dynamicTags.toString(),
-      )
-          .then(
-              response => {
-                console.log(response)
-                this.$message({
-                  message: '发布成功!',
-                  type: 'success'
-                });
-              }
-          )
+      if(id){
+        this.blog.title=this.title
+        this.blog.content=this.editorContent
+        this.blog.updatetime=d;
+        this.blog.ispublished=1;
+        this.blog.desciption=this.blogForm.desc;
+        this.blog.tags=this.dynamicTags.toString();
+        axios.post(url,this.blog
+        )
+            .then(
+                response => {
+                  console.log(response)
+                  this.$message({
+                    message: '发布成功!',
+                    type: 'success'
+                  });
+                }
+            )
+      }
+      else{
+        axios.post(url, {
+          "title":this.title,
+          "content":this.editorContent,
+          "author":"admin",
+          "publishtime":d,
+          "updatetime":d,
+          "ispublished":1,
+          "blogid":this.$route.params && this.$route.params.id,
+          "desciption":this.blogForm.desc,
+          "tags":this.dynamicTags.toString(),
+          "commentnum":0,
+          "collectnum":0,
+          "starnum":0,
+          "viewfrequency":0
+            }
+        )
+            .then(
+                response => {
+                  console.log(response)
+                  this.$message({
+                    message: '发布成功!',
+                    type: 'success'
+                  });
+                }
+            )
+      }
+
+
       this.DialogVisible=false
       this.blogForm.desc=''
       this.dynamicTags= ['Spring','Blog','SpringBoot']

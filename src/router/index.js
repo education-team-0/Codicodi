@@ -43,7 +43,7 @@ const router = new Router({
 
         {
             path: '/blog/editor',
-            component: () => import("@/views/blog/index"),
+            component: () => import("@/views/blog/components/editor"),
             meta: {
                 title: 'editor'
             }
