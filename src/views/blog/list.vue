@@ -60,6 +60,14 @@
                   </template>
                 </el-table-column>
 
+                <el-table-column min-width="100" label="Delete">
+                  <template slot-scope="{row}">
+                      <el-button type="danger" size="small" icon="el-icon-edit" @click="deleteBlog(row.blogid)">
+                        Delete
+                      </el-button>
+                  </template>
+                </el-table-column>
+
 
               </el-table>
 
@@ -136,6 +144,19 @@ export default {
                 console.log(response)
                 this.list=response.data.data
 
+              }
+          )
+    },
+    deleteBlog(blogid){
+      var url='/blog/delete?blogid='+blogid
+      axios.delete(url)
+          .then(
+              response => {
+                console.log(response)
+                this.$message({
+                  message: '删除成功!',
+                  type: 'success'
+                });
               }
           )
     }
