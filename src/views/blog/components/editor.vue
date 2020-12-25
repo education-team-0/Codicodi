@@ -85,7 +85,7 @@
     </el-dialog>
     <el-row class="row">
       <el-col :offset="1" :span="22">
-        <mavon-editor class="editor" v-model="blog.content"></mavon-editor>
+        <mavon-editor class="editor" v-model="editorContent"></mavon-editor>
       </el-col>
     </el-row>
 
@@ -151,6 +151,7 @@ export default {
                 this.blog= JSON.parse(JSON.stringify(response.data.data))
                 this.blogForm.desc=this.blog.desciption
                 this.dynamicTags=(this.blog.tags+"").split(',')
+                this.editorContent=this.blog.content
               }
           )
     },
@@ -161,6 +162,7 @@ export default {
 
       this.blog.updatetime=d;
       this.blog.ispublished=0;
+      this.blog.content=this.editorContent
       axios.post(url,
         this.blog
       )
@@ -178,7 +180,7 @@ export default {
       var d=new Date();
       var url="blog/publish";
 
-
+      this.blog.content=this.editorContent
       this.blog.updatetime=d;
       this.blog.ispublished=1;
       this.blog.desciption=this.blogForm.desc;
